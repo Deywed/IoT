@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "leU4kxijhME=",
+  "success": true,
+  "projectFilePath": "/Users/macbook/FAKS/GODINA-4/semestar-8/IoT/project-01/dotnet-client/dotnet-client.csproj",
+  "expectedPackageFiles": [
+    "/Users/macbook/.nuget/packages/google.protobuf/3.34.1/google.protobuf.3.34.1.nupkg.sha512",
+    "/Users/macbook/.nuget/packages/grpc.core.api/2.80.0/grpc.core.api.2.80.0.nupkg.sha512",
+    "/Users/macbook/.nuget/packages/grpc.net.client/2.80.0/grpc.net.client.2.80.0.nupkg.sha512",
+    "/Users/macbook/.nuget/packages/grpc.net.common/2.80.0/grpc.net.common.2.80.0.nupkg.sha512",
+    "/Users/macbook/.nuget/packages/grpc.tools/2.80.0/grpc.tools.2.80.0.nupkg.sha512",
+    "/Users/macbook/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/Users/macbook/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

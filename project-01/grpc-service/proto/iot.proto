@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+// Putanja mora biti relativna u odnosu na gRPC folder gde pokrećeš komandu
+option go_package = "./pb";
+option csharp_namespace = "IotProject";
+
+service SensorService {
+    rpc SaveMeasurement (MeasurementRequest) returns (MeasurementResponse);
+}
+
+message MeasurementRequest {
+    string recorded_at = 1;
+    float usage_overall = 2;
+    float fridge_kw = 3;
+    float dishwasher_kw = 4;
+    float furnace_kw = 5;
+    float temperature = 6;
+    float humidity = 7;
+    string summary = 8;
+}
+
+message MeasurementResponse {
+    bool success = 1;
+    string message = 2;
+}

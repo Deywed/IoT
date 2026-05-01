@@ -1,0 +1,2 @@
+obj/Debug/net10.0/Iot.cs \
+obj/Debug/net10.0/IotGrpc.cs: ../grpc-service/proto/iot.proto
