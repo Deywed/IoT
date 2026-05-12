@@ -45,5 +45,27 @@ namespace rest_service.Controllers
             var stats = await connection.QuerySingleOrDefaultAsync(sql);
             return Ok(stats);
         }
+        // Dodaj ovaj metod unutar klase MeasurementsController
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] Measurement measurement)
+        {
+            // Postavljamo vreme ako nije poslato
+            if (measurement.RecordedAt == default)
+                measurement.RecordedAt = DateTime.UtcNow;
+
+            using var connection = new NpgsqlConnection(_connectionString);
+
+            var sql = @"
+        INSERT INTO sensor_measurements (recorded_at, overall_usage, temperature, summary) 
+        VALUES (@RecordedAt, @OverallUsage, @Temperature, @Summary)
+        RETURNING id";
+
+            // Izvršavamo upit i dobijamo nazad ID novog zapisa
+            var id = await connection.ExecuteScalarAsync<int>(sql, measurement);
+
+            measurement.Id = id;
+            return CreatedAtAction(nameof(GetAll), new { id = measurement.Id }, measurement);
+        }
     }
 }
