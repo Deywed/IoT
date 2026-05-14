@@ -2,11 +2,14 @@ import { Pool } from "pg";
 
 // Konfiguracija konekcije (isti podaci kao u Go i .NET servisu)
 const pool = new Pool({
-  user: "myuser",
-  host: "localhost",
-  database: "mydb",
-  password: "mypassword",
-  port: 5432,
+  user:                  process.env.DB_USER     || "myuser",
+  host:                  process.env.DB_HOST     || "localhost",
+  database:              process.env.DB_NAME     || "mydb",
+  password:              process.env.DB_PASSWORD || "mypassword",
+  port:                  parseInt(process.env.DB_PORT || "5432"),
+  max:                   50,    // max simultanih DB konekcija (default je 10)
+  idleTimeoutMillis:     30000,
+  connectionTimeoutMillis: 3000,
 });
 
 export const resolvers = {

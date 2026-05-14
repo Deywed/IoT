@@ -173,6 +173,446 @@ func (x *MeasurementResponse) GetMessage() string {
 	return ""
 }
 
+type GetMeasurementsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Limit         int32                  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMeasurementsRequest) Reset() {
+	*x = GetMeasurementsRequest{}
+	mi := &file_proto_iot_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMeasurementsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMeasurementsRequest) ProtoMessage() {}
+
+func (x *GetMeasurementsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_iot_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMeasurementsRequest.ProtoReflect.Descriptor instead.
+func (*GetMeasurementsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_iot_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetMeasurementsRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+type MeasurementData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	RecordedAt    string                 `protobuf:"bytes,2,opt,name=recorded_at,json=recordedAt,proto3" json:"recorded_at,omitempty"`
+	UsageOverall  float32                `protobuf:"fixed32,3,opt,name=usage_overall,json=usageOverall,proto3" json:"usage_overall,omitempty"`
+	Temperature   float32                `protobuf:"fixed32,4,opt,name=temperature,proto3" json:"temperature,omitempty"`
+	Summary       string                 `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
+	FridgeKw      float32                `protobuf:"fixed32,6,opt,name=fridge_kw,json=fridgeKw,proto3" json:"fridge_kw,omitempty"`
+	FurnaceKw     float32                `protobuf:"fixed32,7,opt,name=furnace_kw,json=furnaceKw,proto3" json:"furnace_kw,omitempty"`
+	Humidity      float32                `protobuf:"fixed32,8,opt,name=humidity,proto3" json:"humidity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MeasurementData) Reset() {
+	*x = MeasurementData{}
+	mi := &file_proto_iot_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MeasurementData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MeasurementData) ProtoMessage() {}
+
+func (x *MeasurementData) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_iot_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MeasurementData.ProtoReflect.Descriptor instead.
+func (*MeasurementData) Descriptor() ([]byte, []int) {
+	return file_proto_iot_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *MeasurementData) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *MeasurementData) GetRecordedAt() string {
+	if x != nil {
+		return x.RecordedAt
+	}
+	return ""
+}
+
+func (x *MeasurementData) GetUsageOverall() float32 {
+	if x != nil {
+		return x.UsageOverall
+	}
+	return 0
+}
+
+func (x *MeasurementData) GetTemperature() float32 {
+	if x != nil {
+		return x.Temperature
+	}
+	return 0
+}
+
+func (x *MeasurementData) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *MeasurementData) GetFridgeKw() float32 {
+	if x != nil {
+		return x.FridgeKw
+	}
+	return 0
+}
+
+func (x *MeasurementData) GetFurnaceKw() float32 {
+	if x != nil {
+		return x.FurnaceKw
+	}
+	return 0
+}
+
+func (x *MeasurementData) GetHumidity() float32 {
+	if x != nil {
+		return x.Humidity
+	}
+	return 0
+}
+
+type MeasurementsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Measurements  []*MeasurementData     `protobuf:"bytes,1,rep,name=measurements,proto3" json:"measurements,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MeasurementsResponse) Reset() {
+	*x = MeasurementsResponse{}
+	mi := &file_proto_iot_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MeasurementsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MeasurementsResponse) ProtoMessage() {}
+
+func (x *MeasurementsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_iot_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MeasurementsResponse.ProtoReflect.Descriptor instead.
+func (*MeasurementsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_iot_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *MeasurementsResponse) GetMeasurements() []*MeasurementData {
+	if x != nil {
+		return x.Measurements
+	}
+	return nil
+}
+
+type SelectiveRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Limit         int32                  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SelectiveRequest) Reset() {
+	*x = SelectiveRequest{}
+	mi := &file_proto_iot_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SelectiveRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SelectiveRequest) ProtoMessage() {}
+
+func (x *SelectiveRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_iot_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SelectiveRequest.ProtoReflect.Descriptor instead.
+func (*SelectiveRequest) Descriptor() ([]byte, []int) {
+	return file_proto_iot_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *SelectiveRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+type SelectiveData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	RecordedAt    string                 `protobuf:"bytes,2,opt,name=recorded_at,json=recordedAt,proto3" json:"recorded_at,omitempty"`
+	Temperature   float32                `protobuf:"fixed32,3,opt,name=temperature,proto3" json:"temperature,omitempty"`
+	Humidity      float32                `protobuf:"fixed32,4,opt,name=humidity,proto3" json:"humidity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SelectiveData) Reset() {
+	*x = SelectiveData{}
+	mi := &file_proto_iot_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SelectiveData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SelectiveData) ProtoMessage() {}
+
+func (x *SelectiveData) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_iot_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SelectiveData.ProtoReflect.Descriptor instead.
+func (*SelectiveData) Descriptor() ([]byte, []int) {
+	return file_proto_iot_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *SelectiveData) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *SelectiveData) GetRecordedAt() string {
+	if x != nil {
+		return x.RecordedAt
+	}
+	return ""
+}
+
+func (x *SelectiveData) GetTemperature() float32 {
+	if x != nil {
+		return x.Temperature
+	}
+	return 0
+}
+
+func (x *SelectiveData) GetHumidity() float32 {
+	if x != nil {
+		return x.Humidity
+	}
+	return 0
+}
+
+type SelectiveResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []*SelectiveData       `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SelectiveResponse) Reset() {
+	*x = SelectiveResponse{}
+	mi := &file_proto_iot_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SelectiveResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SelectiveResponse) ProtoMessage() {}
+
+func (x *SelectiveResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_iot_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SelectiveResponse.ProtoReflect.Descriptor instead.
+func (*SelectiveResponse) Descriptor() ([]byte, []int) {
+	return file_proto_iot_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *SelectiveResponse) GetData() []*SelectiveData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type StatsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StatsRequest) Reset() {
+	*x = StatsRequest{}
+	mi := &file_proto_iot_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StatsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StatsRequest) ProtoMessage() {}
+
+func (x *StatsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_iot_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StatsRequest.ProtoReflect.Descriptor instead.
+func (*StatsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_iot_proto_rawDescGZIP(), []int{8}
+}
+
+type StatsResponse struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	AvgTemperature float32                `protobuf:"fixed32,1,opt,name=avg_temperature,json=avgTemperature,proto3" json:"avg_temperature,omitempty"`
+	MaxTemperature float32                `protobuf:"fixed32,2,opt,name=max_temperature,json=maxTemperature,proto3" json:"max_temperature,omitempty"`
+	TotalReadings  int64                  `protobuf:"varint,3,opt,name=total_readings,json=totalReadings,proto3" json:"total_readings,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *StatsResponse) Reset() {
+	*x = StatsResponse{}
+	mi := &file_proto_iot_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StatsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StatsResponse) ProtoMessage() {}
+
+func (x *StatsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_iot_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StatsResponse.ProtoReflect.Descriptor instead.
+func (*StatsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_iot_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *StatsResponse) GetAvgTemperature() float32 {
+	if x != nil {
+		return x.AvgTemperature
+	}
+	return 0
+}
+
+func (x *StatsResponse) GetMaxTemperature() float32 {
+	if x != nil {
+		return x.MaxTemperature
+	}
+	return 0
+}
+
+func (x *StatsResponse) GetTotalReadings() int64 {
+	if x != nil {
+		return x.TotalReadings
+	}
+	return 0
+}
+
 var File_proto_iot_proto protoreflect.FileDescriptor
 
 const file_proto_iot_proto_rawDesc = "" +
@@ -191,9 +631,43 @@ const file_proto_iot_proto_rawDesc = "" +
 	"\asummary\x18\b \x01(\tR\asummary\"I\n" +
 	"\x13MeasurementResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage2M\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\".\n" +
+	"\x16GetMeasurementsRequest\x12\x14\n" +
+	"\x05limit\x18\x01 \x01(\x05R\x05limit\"\xfb\x01\n" +
+	"\x0fMeasurementData\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
+	"\vrecorded_at\x18\x02 \x01(\tR\n" +
+	"recordedAt\x12#\n" +
+	"\rusage_overall\x18\x03 \x01(\x02R\fusageOverall\x12 \n" +
+	"\vtemperature\x18\x04 \x01(\x02R\vtemperature\x12\x18\n" +
+	"\asummary\x18\x05 \x01(\tR\asummary\x12\x1b\n" +
+	"\tfridge_kw\x18\x06 \x01(\x02R\bfridgeKw\x12\x1d\n" +
+	"\n" +
+	"furnace_kw\x18\a \x01(\x02R\tfurnaceKw\x12\x1a\n" +
+	"\bhumidity\x18\b \x01(\x02R\bhumidity\"L\n" +
+	"\x14MeasurementsResponse\x124\n" +
+	"\fmeasurements\x18\x01 \x03(\v2\x10.MeasurementDataR\fmeasurements\"(\n" +
+	"\x10SelectiveRequest\x12\x14\n" +
+	"\x05limit\x18\x01 \x01(\x05R\x05limit\"~\n" +
+	"\rSelectiveData\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
+	"\vrecorded_at\x18\x02 \x01(\tR\n" +
+	"recordedAt\x12 \n" +
+	"\vtemperature\x18\x03 \x01(\x02R\vtemperature\x12\x1a\n" +
+	"\bhumidity\x18\x04 \x01(\x02R\bhumidity\"7\n" +
+	"\x11SelectiveResponse\x12\"\n" +
+	"\x04data\x18\x01 \x03(\v2\x0e.SelectiveDataR\x04data\"\x0e\n" +
+	"\fStatsRequest\"\x88\x01\n" +
+	"\rStatsResponse\x12'\n" +
+	"\x0favg_temperature\x18\x01 \x01(\x02R\x0eavgTemperature\x12'\n" +
+	"\x0fmax_temperature\x18\x02 \x01(\x02R\x0emaxTemperature\x12%\n" +
+	"\x0etotal_readings\x18\x03 \x01(\x03R\rtotalReadings2\xf6\x01\n" +
 	"\rSensorService\x12<\n" +
-	"\x0fSaveMeasurement\x12\x13.MeasurementRequest\x1a\x14.MeasurementResponseB\x06Z\x04./pbb\x06proto3"
+	"\x0fSaveMeasurement\x12\x13.MeasurementRequest\x1a\x14.MeasurementResponse\x12A\n" +
+	"\x0fGetMeasurements\x12\x17.GetMeasurementsRequest\x1a\x15.MeasurementsResponse\x129\n" +
+	"\x10GetSelectiveData\x12\x11.SelectiveRequest\x1a\x12.SelectiveResponse\x12)\n" +
+	"\bGetStats\x12\r.StatsRequest\x1a\x0e.StatsResponseB\x13Z\x04./pb\xaa\x02\n" +
+	"IotProjectb\x06proto3"
 
 var (
 	file_proto_iot_proto_rawDescOnce sync.Once
@@ -207,19 +681,35 @@ func file_proto_iot_proto_rawDescGZIP() []byte {
 	return file_proto_iot_proto_rawDescData
 }
 
-var file_proto_iot_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_proto_iot_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_proto_iot_proto_goTypes = []any{
-	(*MeasurementRequest)(nil),  // 0: MeasurementRequest
-	(*MeasurementResponse)(nil), // 1: MeasurementResponse
+	(*MeasurementRequest)(nil),     // 0: MeasurementRequest
+	(*MeasurementResponse)(nil),    // 1: MeasurementResponse
+	(*GetMeasurementsRequest)(nil), // 2: GetMeasurementsRequest
+	(*MeasurementData)(nil),        // 3: MeasurementData
+	(*MeasurementsResponse)(nil),   // 4: MeasurementsResponse
+	(*SelectiveRequest)(nil),       // 5: SelectiveRequest
+	(*SelectiveData)(nil),          // 6: SelectiveData
+	(*SelectiveResponse)(nil),      // 7: SelectiveResponse
+	(*StatsRequest)(nil),           // 8: StatsRequest
+	(*StatsResponse)(nil),          // 9: StatsResponse
 }
 var file_proto_iot_proto_depIdxs = []int32{
-	0, // 0: SensorService.SaveMeasurement:input_type -> MeasurementRequest
-	1, // 1: SensorService.SaveMeasurement:output_type -> MeasurementResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	3, // 0: MeasurementsResponse.measurements:type_name -> MeasurementData
+	6, // 1: SelectiveResponse.data:type_name -> SelectiveData
+	0, // 2: SensorService.SaveMeasurement:input_type -> MeasurementRequest
+	2, // 3: SensorService.GetMeasurements:input_type -> GetMeasurementsRequest
+	5, // 4: SensorService.GetSelectiveData:input_type -> SelectiveRequest
+	8, // 5: SensorService.GetStats:input_type -> StatsRequest
+	1, // 6: SensorService.SaveMeasurement:output_type -> MeasurementResponse
+	4, // 7: SensorService.GetMeasurements:output_type -> MeasurementsResponse
+	7, // 8: SensorService.GetSelectiveData:output_type -> SelectiveResponse
+	9, // 9: SensorService.GetStats:output_type -> StatsResponse
+	6, // [6:10] is the sub-list for method output_type
+	2, // [2:6] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_proto_iot_proto_init() }
@@ -233,7 +723,7 @@ func file_proto_iot_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_iot_proto_rawDesc), len(file_proto_iot_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -1,25 +1,77 @@
 syntax = "proto3";
 
-// Putanja mora biti relativna u odnosu na gRPC folder gde pokrećeš komandu
 option go_package = "./pb";
 option csharp_namespace = "IotProject";
 
 service SensorService {
-    rpc SaveMeasurement (MeasurementRequest) returns (MeasurementResponse);
+    rpc SaveMeasurement   (MeasurementRequest)   returns (MeasurementResponse);
+    rpc GetMeasurements   (GetMeasurementsRequest) returns (MeasurementsResponse);
+    rpc GetSelectiveData  (SelectiveRequest)      returns (SelectiveResponse);
+    rpc GetStats          (StatsRequest)          returns (StatsResponse);
 }
 
+// --- Write ---
+
 message MeasurementRequest {
-    string recorded_at = 1;
-    float usage_overall = 2;
-    float fridge_kw = 3;
-    float dishwasher_kw = 4;
-    float furnace_kw = 5;
-    float temperature = 6;
-    float humidity = 7;
-    string summary = 8;
+    string recorded_at    = 1;
+    float  usage_overall  = 2;
+    float  fridge_kw      = 3;
+    float  dishwasher_kw  = 4;
+    float  furnace_kw     = 5;
+    float  temperature    = 6;
+    float  humidity       = 7;
+    string summary        = 8;
 }
 
 message MeasurementResponse {
-    bool success = 1;
+    bool   success = 1;
     string message = 2;
+}
+
+// --- GetMeasurements ---
+
+message GetMeasurementsRequest {
+    int32 limit = 1;
+}
+
+message MeasurementData {
+    int64  id           = 1;
+    string recorded_at  = 2;
+    float  usage_overall = 3;
+    float  temperature  = 4;
+    string summary      = 5;
+    float  fridge_kw    = 6;
+    float  furnace_kw   = 7;
+    float  humidity     = 8;
+}
+
+message MeasurementsResponse {
+    repeated MeasurementData measurements = 1;
+}
+
+// --- Scenario B: Selective (samo temperature + humidity) ---
+
+message SelectiveRequest {
+    int32 limit = 1;
+}
+
+message SelectiveData {
+    int64  id          = 1;
+    string recorded_at = 2;
+    float  temperature = 3;
+    float  humidity    = 4;
+}
+
+message SelectiveResponse {
+    repeated SelectiveData data = 1;
+}
+
+// --- Scenario C: Stats / agregacije ---
+
+message StatsRequest {}
+
+message StatsResponse {
+    float avg_temperature = 1;
+    float max_temperature = 2;
+    int64 total_readings  = 3;
 }

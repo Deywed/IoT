@@ -18,14 +18,11 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Konfiguracija pipeline-a
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+});
 
 app.MapControllers();
 

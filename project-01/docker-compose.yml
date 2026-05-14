@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:latest
+    image: postgres:16-alpine
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
@@ -9,6 +9,50 @@ services:
       - "5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - db_data:/var/lib/postgresql
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  rest-service:
+    build:
+      context: ./rest-service
+    ports:
+      - "8080:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Database=mydb;Username=myuser;Password=mypassword
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      db:
+        condition: service_healthy
+
+  grpc-service:
+    build:
+      context: ./grpc-service
+    ports:
+      - "50051:50051"
+    environment:
+      - DB_CONN=postgres://myuser:mypassword@db:5432/mydb
+    depends_on:
+      db:
+        condition: service_healthy
+
+  graphql-service:
+    build:
+      context: ./graphql-service
+    ports:
+      - "4000:4000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB_NAME=mydb
+      - DB_PORT=5432
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   db_data:

@@ -49,6 +49,18 @@ namespace IotProject {
     static readonly grpc::Marshaller<global::IotProject.MeasurementRequest> __Marshaller_MeasurementRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::IotProject.MeasurementRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::IotProject.MeasurementResponse> __Marshaller_MeasurementResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::IotProject.MeasurementResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::IotProject.GetMeasurementsRequest> __Marshaller_GetMeasurementsRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::IotProject.GetMeasurementsRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::IotProject.MeasurementsResponse> __Marshaller_MeasurementsResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::IotProject.MeasurementsResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::IotProject.SelectiveRequest> __Marshaller_SelectiveRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::IotProject.SelectiveRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::IotProject.SelectiveResponse> __Marshaller_SelectiveResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::IotProject.SelectiveResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::IotProject.StatsRequest> __Marshaller_StatsRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::IotProject.StatsRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::IotProject.StatsResponse> __Marshaller_StatsResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::IotProject.StatsResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::IotProject.MeasurementRequest, global::IotProject.MeasurementResponse> __Method_SaveMeasurement = new grpc::Method<global::IotProject.MeasurementRequest, global::IotProject.MeasurementResponse>(
@@ -57,6 +69,30 @@ namespace IotProject {
         "SaveMeasurement",
         __Marshaller_MeasurementRequest,
         __Marshaller_MeasurementResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::IotProject.GetMeasurementsRequest, global::IotProject.MeasurementsResponse> __Method_GetMeasurements = new grpc::Method<global::IotProject.GetMeasurementsRequest, global::IotProject.MeasurementsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetMeasurements",
+        __Marshaller_GetMeasurementsRequest,
+        __Marshaller_MeasurementsResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::IotProject.SelectiveRequest, global::IotProject.SelectiveResponse> __Method_GetSelectiveData = new grpc::Method<global::IotProject.SelectiveRequest, global::IotProject.SelectiveResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetSelectiveData",
+        __Marshaller_SelectiveRequest,
+        __Marshaller_SelectiveResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::IotProject.StatsRequest, global::IotProject.StatsResponse> __Method_GetStats = new grpc::Method<global::IotProject.StatsRequest, global::IotProject.StatsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetStats",
+        __Marshaller_StatsRequest,
+        __Marshaller_StatsResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -110,6 +146,66 @@ namespace IotProject {
       public virtual grpc::AsyncUnaryCall<global::IotProject.MeasurementResponse> SaveMeasurementAsync(global::IotProject.MeasurementRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_SaveMeasurement, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::IotProject.MeasurementsResponse GetMeasurements(global::IotProject.GetMeasurementsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetMeasurements(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::IotProject.MeasurementsResponse GetMeasurements(global::IotProject.GetMeasurementsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetMeasurements, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::IotProject.MeasurementsResponse> GetMeasurementsAsync(global::IotProject.GetMeasurementsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetMeasurementsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::IotProject.MeasurementsResponse> GetMeasurementsAsync(global::IotProject.GetMeasurementsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetMeasurements, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::IotProject.SelectiveResponse GetSelectiveData(global::IotProject.SelectiveRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetSelectiveData(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::IotProject.SelectiveResponse GetSelectiveData(global::IotProject.SelectiveRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetSelectiveData, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::IotProject.SelectiveResponse> GetSelectiveDataAsync(global::IotProject.SelectiveRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetSelectiveDataAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::IotProject.SelectiveResponse> GetSelectiveDataAsync(global::IotProject.SelectiveRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetSelectiveData, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::IotProject.StatsResponse GetStats(global::IotProject.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetStats(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::IotProject.StatsResponse GetStats(global::IotProject.StatsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetStats, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::IotProject.StatsResponse> GetStatsAsync(global::IotProject.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetStatsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::IotProject.StatsResponse> GetStatsAsync(global::IotProject.StatsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetStats, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

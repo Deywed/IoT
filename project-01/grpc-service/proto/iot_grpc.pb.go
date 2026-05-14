@@ -19,7 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SensorService_SaveMeasurement_FullMethodName = "/SensorService/SaveMeasurement"
+	SensorService_SaveMeasurement_FullMethodName  = "/SensorService/SaveMeasurement"
+	SensorService_GetMeasurements_FullMethodName  = "/SensorService/GetMeasurements"
+	SensorService_GetSelectiveData_FullMethodName = "/SensorService/GetSelectiveData"
+	SensorService_GetStats_FullMethodName         = "/SensorService/GetStats"
 )
 
 // SensorServiceClient is the client API for SensorService service.
@@ -27,6 +30,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SensorServiceClient interface {
 	SaveMeasurement(ctx context.Context, in *MeasurementRequest, opts ...grpc.CallOption) (*MeasurementResponse, error)
+	GetMeasurements(ctx context.Context, in *GetMeasurementsRequest, opts ...grpc.CallOption) (*MeasurementsResponse, error)
+	GetSelectiveData(ctx context.Context, in *SelectiveRequest, opts ...grpc.CallOption) (*SelectiveResponse, error)
+	GetStats(ctx context.Context, in *StatsRequest, opts ...grpc.CallOption) (*StatsResponse, error)
 }
 
 type sensorServiceClient struct {
@@ -47,11 +53,44 @@ func (c *sensorServiceClient) SaveMeasurement(ctx context.Context, in *Measureme
 	return out, nil
 }
 
+func (c *sensorServiceClient) GetMeasurements(ctx context.Context, in *GetMeasurementsRequest, opts ...grpc.CallOption) (*MeasurementsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MeasurementsResponse)
+	err := c.cc.Invoke(ctx, SensorService_GetMeasurements_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sensorServiceClient) GetSelectiveData(ctx context.Context, in *SelectiveRequest, opts ...grpc.CallOption) (*SelectiveResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SelectiveResponse)
+	err := c.cc.Invoke(ctx, SensorService_GetSelectiveData_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sensorServiceClient) GetStats(ctx context.Context, in *StatsRequest, opts ...grpc.CallOption) (*StatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StatsResponse)
+	err := c.cc.Invoke(ctx, SensorService_GetStats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SensorServiceServer is the server API for SensorService service.
 // All implementations must embed UnimplementedSensorServiceServer
 // for forward compatibility.
 type SensorServiceServer interface {
 	SaveMeasurement(context.Context, *MeasurementRequest) (*MeasurementResponse, error)
+	GetMeasurements(context.Context, *GetMeasurementsRequest) (*MeasurementsResponse, error)
+	GetSelectiveData(context.Context, *SelectiveRequest) (*SelectiveResponse, error)
+	GetStats(context.Context, *StatsRequest) (*StatsResponse, error)
 	mustEmbedUnimplementedSensorServiceServer()
 }
 
@@ -64,6 +103,15 @@ type UnimplementedSensorServiceServer struct{}
 
 func (UnimplementedSensorServiceServer) SaveMeasurement(context.Context, *MeasurementRequest) (*MeasurementResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SaveMeasurement not implemented")
+}
+func (UnimplementedSensorServiceServer) GetMeasurements(context.Context, *GetMeasurementsRequest) (*MeasurementsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetMeasurements not implemented")
+}
+func (UnimplementedSensorServiceServer) GetSelectiveData(context.Context, *SelectiveRequest) (*SelectiveResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetSelectiveData not implemented")
+}
+func (UnimplementedSensorServiceServer) GetStats(context.Context, *StatsRequest) (*StatsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetStats not implemented")
 }
 func (UnimplementedSensorServiceServer) mustEmbedUnimplementedSensorServiceServer() {}
 func (UnimplementedSensorServiceServer) testEmbeddedByValue()                       {}
@@ -104,6 +152,60 @@ func _SensorService_SaveMeasurement_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SensorService_GetMeasurements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMeasurementsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SensorServiceServer).GetMeasurements(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SensorService_GetMeasurements_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SensorServiceServer).GetMeasurements(ctx, req.(*GetMeasurementsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SensorService_GetSelectiveData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SelectiveRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SensorServiceServer).GetSelectiveData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SensorService_GetSelectiveData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SensorServiceServer).GetSelectiveData(ctx, req.(*SelectiveRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SensorService_GetStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SensorServiceServer).GetStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SensorService_GetStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SensorServiceServer).GetStats(ctx, req.(*StatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SensorService_ServiceDesc is the grpc.ServiceDesc for SensorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +216,18 @@ var SensorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SaveMeasurement",
 			Handler:    _SensorService_SaveMeasurement_Handler,
+		},
+		{
+			MethodName: "GetMeasurements",
+			Handler:    _SensorService_GetMeasurements_Handler,
+		},
+		{
+			MethodName: "GetSelectiveData",
+			Handler:    _SensorService_GetSelectiveData_Handler,
+		},
+		{
+			MethodName: "GetStats",
+			Handler:    _SensorService_GetStats_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

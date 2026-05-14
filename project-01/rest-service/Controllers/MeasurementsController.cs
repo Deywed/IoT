@@ -47,6 +47,16 @@ namespace rest_service.Controllers
         }
         // Dodaj ovaj metod unutar klase MeasurementsController
 
+        // SCENARIO B: Samo 2 polja (temperature + humidity) - selective monitoring
+        [HttpGet("selective")]
+        public async Task<IActionResult> GetSelective()
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            var sql = "SELECT id, recorded_at as RecordedAt, temperature, humidity FROM sensor_measurements ORDER BY recorded_at DESC LIMIT 100";
+            var data = await connection.QueryAsync(sql);
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Measurement measurement)
         {

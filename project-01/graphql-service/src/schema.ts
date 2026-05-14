@@ -3,11 +3,10 @@ export const typeDefs = `#graphql
   type Measurement {
     id: ID!
     recorded_at: String!
-    overall_usage: Float!
+    overall_usage: Float
     fridge_kw: Float
-    dishwasher_kw: Float
     furnace_kw: Float
-    temperature: Float!
+    temperature: Float
     humidity: Float
     summary: String
   }
