@@ -8,10 +8,10 @@ CREATE TABLE sensor_measurements (
     
     -- Individual appliance consumption (kW)
     fridge_kw REAL,
-    furnace_kw REAL,       -- Furnace 1 + Furnace 2 (možeš ih sabrati u kodu)
+    furnace_kw REAL,       -- Furnace 1 + Furnace 2
     home_office_kw REAL,
     
-    -- Meteorološki podaci (Samo najbitnije)
+    -- Meteorological data
     temperature REAL,
     humidity REAL,
     summary VARCHAR(50) -- "Clear", "Cloudy"

@@ -13,10 +13,10 @@ import { check, sleep } from 'k6';
 
 export const options = {
   stages: [
-    { duration: '30s', target: 10  },   // zagrevanje – 10 VU
-    { duration: '60s', target: 100 },   // srednje opterećenje – 100 VU
-    { duration: '60s', target: 500 },   // visoko opterećenje – 500 VU
-    { duration: '15s', target: 0   },   // hlađenje
+    { duration: '30s', target: 10  },
+    { duration: '60s', target: 100 },
+    { duration: '60s', target: 500 },
+    { duration: '15s', target: 0   },
   ],
   thresholds: {
     'http_req_duration{protocol:rest}':    ['avg<1000', 'p(95)<2000'],
@@ -26,18 +26,40 @@ export const options = {
   },
 };
 
-// gRPC klijent se kreira jednom po VU – konekcija se drži otvorenom tokom testa
 const grpcClient = new grpc.Client();
 grpcClient.load(['../grpc-service'], 'proto/iot.proto');
 
+// Realistični podaci IoT uređaja — kuća sa solarnim panelima
+function randomReading() {
+  const summaries = ['Clear', 'Cloudy', 'Rainy', 'Partly Cloudy'];
+  return {
+    temperature:      parseFloat((5  + Math.random() * 30).toFixed(2)),
+    humidity:         parseFloat((30 + Math.random() * 50).toFixed(2)),
+    overall_usage:    parseFloat((1  + Math.random() * 14).toFixed(2)),
+    solar_generation: parseFloat((Math.random() * 8).toFixed(2)),
+    fridge_kw:        parseFloat((0.1 + Math.random() * 0.4).toFixed(3)),
+    furnace_kw:       parseFloat((Math.random() * 3).toFixed(2)),
+    home_office_kw:   parseFloat((Math.random() * 0.5).toFixed(3)),
+    summary:          summaries[Math.floor(Math.random() * summaries.length)],
+  };
+}
+
 export default function () {
-  const temperature = parseFloat((15 + Math.random() * 20).toFixed(2));
-  const usage      = parseFloat((Math.random() * 10).toFixed(2));
+  const r = randomReading();
 
   // ── REST ─────────────────────────────────────────────────────────────────
   const restRes = http.post(
     'http://localhost:8080/api/measurements',
-    JSON.stringify({ temperature, overallUsage: usage, summary: 'Clear' }),
+    JSON.stringify({
+      temperature:     r.temperature,
+      humidity:        r.humidity,
+      overallUsage:    r.overall_usage,
+      solarGeneration: r.solar_generation,
+      fridgeKw:        r.fridge_kw,
+      furnaceKw:       r.furnace_kw,
+      homeOfficeKw:    r.home_office_kw,
+      summary:         r.summary,
+    }),
     { headers: { 'Content-Type': 'application/json' }, tags: { protocol: 'rest' } }
   );
   check(restRes, { '[REST] 201 Created': (r) => r.status === 201 });
@@ -47,9 +69,12 @@ export default function () {
     'http://localhost:4000/',
     JSON.stringify({
       query: `mutation {
-        createMeasurement(temperature: ${temperature}, overall_usage: ${usage}, summary: "Clear") {
-          id
-        }
+        createMeasurement(
+          temperature: ${r.temperature}, humidity: ${r.humidity},
+          overall_usage: ${r.overall_usage}, solar_generation: ${r.solar_generation},
+          fridge_kw: ${r.fridge_kw}, furnace_kw: ${r.furnace_kw},
+          home_office_kw: ${r.home_office_kw}, summary: "${r.summary}"
+        ) { id }
       }`,
     }),
     { headers: { 'Content-Type': 'application/json' }, tags: { protocol: 'graphql' } }
@@ -60,13 +85,18 @@ export default function () {
   });
 
   // ── gRPC ──────────────────────────────────────────────────────────────────
-  grpcClient.connect('localhost:50051', { plaintext: true }); // reuse-uje konekciju
+  grpcClient.connect('localhost:50051', { plaintext: true });
   const grpcRes = grpcClient.invoke('SensorService/SaveMeasurement', {
-    temperature,
-    usage_overall: usage,
-    summary: 'Clear',
+    temperature:      r.temperature,
+    humidity:         r.humidity,
+    usage_overall:    r.overall_usage,
+    solar_generation: r.solar_generation,
+    fridge_kw:        r.fridge_kw,
+    furnace_kw:       r.furnace_kw,
+    home_office_kw:   r.home_office_kw,
+    summary:          r.summary,
   });
   check(grpcRes, { '[gRPC] StatusOK': (r) => r && r.status === grpc.StatusOK });
 
-  sleep(0.1); // kratka pauza između iteracija (simulira senzor koji šalje svakih 100ms)
+  sleep(0.1);
 }

@@ -13,7 +13,7 @@ async function startServer() {
     listen: { port: 4000 },
   });
 
-  console.log(`🚀 GraphQL server spreman na: ${url}`);
+  console.log(`ok ${url}`);
 }
 
 startServer();

@@ -4,23 +4,24 @@ option go_package = "./pb";
 option csharp_namespace = "IotProject";
 
 service SensorService {
-    rpc SaveMeasurement   (MeasurementRequest)   returns (MeasurementResponse);
+    rpc SaveMeasurement   (MeasurementRequest)    returns (MeasurementResponse);
     rpc GetMeasurements   (GetMeasurementsRequest) returns (MeasurementsResponse);
-    rpc GetSelectiveData  (SelectiveRequest)      returns (SelectiveResponse);
-    rpc GetStats          (StatsRequest)          returns (StatsResponse);
+    rpc GetSelectiveData  (SelectiveRequest)       returns (SelectiveResponse);
+    rpc GetStats          (StatsRequest)           returns (StatsResponse);
 }
 
 // --- Write ---
 
 message MeasurementRequest {
-    string recorded_at    = 1;
-    float  usage_overall  = 2;
-    float  fridge_kw      = 3;
-    float  dishwasher_kw  = 4;
-    float  furnace_kw     = 5;
-    float  temperature    = 6;
-    float  humidity       = 7;
-    string summary        = 8;
+    string recorded_at      = 1;
+    float  usage_overall    = 2;
+    float  solar_generation = 3;
+    float  fridge_kw        = 4;
+    float  furnace_kw       = 5;
+    float  home_office_kw   = 6;
+    float  temperature      = 7;
+    float  humidity         = 8;
+    string summary          = 9;
 }
 
 message MeasurementResponse {
@@ -35,14 +36,16 @@ message GetMeasurementsRequest {
 }
 
 message MeasurementData {
-    int64  id           = 1;
-    string recorded_at  = 2;
-    float  usage_overall = 3;
-    float  temperature  = 4;
-    string summary      = 5;
-    float  fridge_kw    = 6;
-    float  furnace_kw   = 7;
-    float  humidity     = 8;
+    int64  id               = 1;
+    string recorded_at      = 2;
+    float  usage_overall    = 3;
+    float  solar_generation = 4;
+    float  fridge_kw        = 5;
+    float  furnace_kw       = 6;
+    float  home_office_kw   = 7;
+    float  temperature      = 8;
+    float  humidity         = 9;
+    string summary          = 10;
 }
 
 message MeasurementsResponse {
@@ -73,5 +76,7 @@ message StatsRequest {}
 message StatsResponse {
     float avg_temperature = 1;
     float max_temperature = 2;
-    int64 total_readings  = 3;
+    float avg_usage       = 3;
+    float max_usage       = 4;
+    int64 total_readings  = 5;
 }

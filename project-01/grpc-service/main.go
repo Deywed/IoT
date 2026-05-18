@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"log"
 	"net"
 	"os"
@@ -21,17 +20,22 @@ type server struct {
 	db *sql.DB
 }
 
-// SCENARIO A: Upis merenja (high-frequency ingestion)
+// SCENARIO A: Upis merenja 
 func (s *server) SaveMeasurement(ctx context.Context, req *pb.MeasurementRequest) (*pb.MeasurementResponse, error) {
 	recordedAt := req.RecordedAt
 	if recordedAt == "" {
 		recordedAt = time.Now().UTC().Format(time.RFC3339)
 	}
 
-	query := `INSERT INTO sensor_measurements (recorded_at, overall_usage, temperature, summary)
-	          VALUES ($1, $2, $3, $4)`
-
-	_, err := s.db.Exec(query, recordedAt, req.UsageOverall, req.Temperature, req.Summary)
+	_, err := s.db.ExecContext(ctx, `
+		INSERT INTO sensor_measurements
+			(recorded_at, overall_usage, solar_generation, fridge_kw, furnace_kw, home_office_kw, temperature, humidity, summary)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+		recordedAt,
+		req.UsageOverall, req.SolarGeneration, req.FridgeKw,
+		req.FurnaceKw, req.HomeOfficeKw, req.Temperature,
+		req.Humidity, req.Summary,
+	)
 	if err != nil {
 		log.Printf("Greška pri upisu: %v", err)
 		return &pb.MeasurementResponse{Success: false, Message: "Greška pri upisu"}, err
@@ -47,7 +51,8 @@ func (s *server) GetMeasurements(ctx context.Context, req *pb.GetMeasurementsReq
 	}
 
 	rows, err := s.db.QueryContext(ctx, `
-		SELECT id, recorded_at, overall_usage, temperature, summary, fridge_kw, furnace_kw, humidity
+		SELECT id, recorded_at, overall_usage, solar_generation, fridge_kw,
+		       furnace_kw, home_office_kw, temperature, humidity, summary
 		FROM sensor_measurements ORDER BY recorded_at DESC LIMIT $1`, limit)
 	if err != nil {
 		return nil, err
@@ -57,34 +62,37 @@ func (s *server) GetMeasurements(ctx context.Context, req *pb.GetMeasurementsReq
 	var measurements []*pb.MeasurementData
 	for rows.Next() {
 		var (
-			id          int64
-			recordedAt  time.Time
-			usage       sql.NullFloat64
-			temperature sql.NullFloat64
-			summary     sql.NullString
-			fridgeKw    sql.NullFloat64
-			furnaceKw   sql.NullFloat64
-			humidity    sql.NullFloat64
+			id             int64
+			recordedAt     time.Time
+			usage          sql.NullFloat64
+			solar          sql.NullFloat64
+			fridge         sql.NullFloat64
+			furnace        sql.NullFloat64
+			homeOffice     sql.NullFloat64
+			temperature    sql.NullFloat64
+			humidity       sql.NullFloat64
+			summary        sql.NullString
 		)
-		if err := rows.Scan(&id, &recordedAt, &usage, &temperature, &summary, &fridgeKw, &furnaceKw, &humidity); err != nil {
+		if err := rows.Scan(&id, &recordedAt, &usage, &solar, &fridge, &furnace, &homeOffice, &temperature, &humidity, &summary); err != nil {
 			return nil, err
 		}
-		m := &pb.MeasurementData{
-			Id:          id,
-			RecordedAt:  recordedAt.Format(time.RFC3339),
-			UsageOverall: float32(usage.Float64),
-			Temperature: float32(temperature.Float64),
-			Summary:     summary.String,
-			FridgeKw:    float32(fridgeKw.Float64),
-			FurnaceKw:   float32(furnaceKw.Float64),
-			Humidity:    float32(humidity.Float64),
-		}
-		measurements = append(measurements, m)
+		measurements = append(measurements, &pb.MeasurementData{
+			Id:              id,
+			RecordedAt:      recordedAt.Format(time.RFC3339),
+			UsageOverall:    float32(usage.Float64),
+			SolarGeneration: float32(solar.Float64),
+			FridgeKw:        float32(fridge.Float64),
+			FurnaceKw:       float32(furnace.Float64),
+			HomeOfficeKw:    float32(homeOffice.Float64),
+			Temperature:     float32(temperature.Float64),
+			Humidity:        float32(humidity.Float64),
+			Summary:         summary.String,
+		})
 	}
 	return &pb.MeasurementsResponse{Measurements: measurements}, nil
 }
 
-// SCENARIO B: Selective monitoring — samo temperature + humidity
+// SCENARIO B: Selective 
 func (s *server) GetSelectiveData(ctx context.Context, req *pb.SelectiveRequest) (*pb.SelectiveResponse, error) {
 	limit := req.Limit
 	if limit <= 0 {
@@ -120,20 +128,24 @@ func (s *server) GetSelectiveData(ctx context.Context, req *pb.SelectiveRequest)
 	return &pb.SelectiveResponse{Data: data}, nil
 }
 
-// SCENARIO C: Agregacije nad istorijskim podacima
+// SCENARIO C: Agregacije
 func (s *server) GetStats(ctx context.Context, req *pb.StatsRequest) (*pb.StatsResponse, error) {
 	row := s.db.QueryRowContext(ctx, `
-		SELECT AVG(temperature), MAX(temperature), COUNT(*)
+		SELECT AVG(temperature), MAX(temperature),
+		       AVG(overall_usage), MAX(overall_usage),
+		       COUNT(*)
 		FROM sensor_measurements`)
 
-	var avgTemp, maxTemp sql.NullFloat64
+	var avgTemp, maxTemp, avgUsage, maxUsage sql.NullFloat64
 	var total int64
-	if err := row.Scan(&avgTemp, &maxTemp, &total); err != nil {
+	if err := row.Scan(&avgTemp, &maxTemp, &avgUsage, &maxUsage, &total); err != nil {
 		return nil, err
 	}
 	return &pb.StatsResponse{
 		AvgTemperature: float32(avgTemp.Float64),
 		MaxTemperature: float32(maxTemp.Float64),
+		AvgUsage:       float32(avgUsage.Float64),
+		MaxUsage:       float32(maxUsage.Float64),
 		TotalReadings:  total,
 	}, nil
 }
@@ -153,19 +165,17 @@ func main() {
 	if err := db.Ping(); err != nil {
 		log.Fatal("Baza nedostupna:", err)
 	}
-	fmt.Println("✅ Baza je spremna.")
 
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
-		log.Fatalf("Neuspešno slušanje na portu 50051: %v", err)
+		log.Fatal("Greška pri slusanju na portu 50051:", err)
 	}
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterSensorServiceServer(grpcServer, &server{db: db})
 	reflection.Register(grpcServer)
 
-	fmt.Println("🚀 gRPC Server pokrenut na portu :50051...")
 	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("Greška pri pokretanju servera: %v", err)
+		log.Fatalf("Greška: %v", err)
 	}
 }

@@ -22,17 +22,18 @@ const (
 )
 
 type MeasurementRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RecordedAt    string                 `protobuf:"bytes,1,opt,name=recorded_at,json=recordedAt,proto3" json:"recorded_at,omitempty"`
-	UsageOverall  float32                `protobuf:"fixed32,2,opt,name=usage_overall,json=usageOverall,proto3" json:"usage_overall,omitempty"`
-	FridgeKw      float32                `protobuf:"fixed32,3,opt,name=fridge_kw,json=fridgeKw,proto3" json:"fridge_kw,omitempty"`
-	DishwasherKw  float32                `protobuf:"fixed32,4,opt,name=dishwasher_kw,json=dishwasherKw,proto3" json:"dishwasher_kw,omitempty"`
-	FurnaceKw     float32                `protobuf:"fixed32,5,opt,name=furnace_kw,json=furnaceKw,proto3" json:"furnace_kw,omitempty"`
-	Temperature   float32                `protobuf:"fixed32,6,opt,name=temperature,proto3" json:"temperature,omitempty"`
-	Humidity      float32                `protobuf:"fixed32,7,opt,name=humidity,proto3" json:"humidity,omitempty"`
-	Summary       string                 `protobuf:"bytes,8,opt,name=summary,proto3" json:"summary,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	RecordedAt      string                 `protobuf:"bytes,1,opt,name=recorded_at,json=recordedAt,proto3" json:"recorded_at,omitempty"`
+	UsageOverall    float32                `protobuf:"fixed32,2,opt,name=usage_overall,json=usageOverall,proto3" json:"usage_overall,omitempty"`
+	SolarGeneration float32                `protobuf:"fixed32,3,opt,name=solar_generation,json=solarGeneration,proto3" json:"solar_generation,omitempty"`
+	FridgeKw        float32                `protobuf:"fixed32,4,opt,name=fridge_kw,json=fridgeKw,proto3" json:"fridge_kw,omitempty"`
+	FurnaceKw       float32                `protobuf:"fixed32,5,opt,name=furnace_kw,json=furnaceKw,proto3" json:"furnace_kw,omitempty"`
+	HomeOfficeKw    float32                `protobuf:"fixed32,6,opt,name=home_office_kw,json=homeOfficeKw,proto3" json:"home_office_kw,omitempty"`
+	Temperature     float32                `protobuf:"fixed32,7,opt,name=temperature,proto3" json:"temperature,omitempty"`
+	Humidity        float32                `protobuf:"fixed32,8,opt,name=humidity,proto3" json:"humidity,omitempty"`
+	Summary         string                 `protobuf:"bytes,9,opt,name=summary,proto3" json:"summary,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *MeasurementRequest) Reset() {
@@ -79,6 +80,13 @@ func (x *MeasurementRequest) GetUsageOverall() float32 {
 	return 0
 }
 
+func (x *MeasurementRequest) GetSolarGeneration() float32 {
+	if x != nil {
+		return x.SolarGeneration
+	}
+	return 0
+}
+
 func (x *MeasurementRequest) GetFridgeKw() float32 {
 	if x != nil {
 		return x.FridgeKw
@@ -86,16 +94,16 @@ func (x *MeasurementRequest) GetFridgeKw() float32 {
 	return 0
 }
 
-func (x *MeasurementRequest) GetDishwasherKw() float32 {
+func (x *MeasurementRequest) GetFurnaceKw() float32 {
 	if x != nil {
-		return x.DishwasherKw
+		return x.FurnaceKw
 	}
 	return 0
 }
 
-func (x *MeasurementRequest) GetFurnaceKw() float32 {
+func (x *MeasurementRequest) GetHomeOfficeKw() float32 {
 	if x != nil {
-		return x.FurnaceKw
+		return x.HomeOfficeKw
 	}
 	return 0
 }
@@ -218,17 +226,19 @@ func (x *GetMeasurementsRequest) GetLimit() int32 {
 }
 
 type MeasurementData struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	RecordedAt    string                 `protobuf:"bytes,2,opt,name=recorded_at,json=recordedAt,proto3" json:"recorded_at,omitempty"`
-	UsageOverall  float32                `protobuf:"fixed32,3,opt,name=usage_overall,json=usageOverall,proto3" json:"usage_overall,omitempty"`
-	Temperature   float32                `protobuf:"fixed32,4,opt,name=temperature,proto3" json:"temperature,omitempty"`
-	Summary       string                 `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
-	FridgeKw      float32                `protobuf:"fixed32,6,opt,name=fridge_kw,json=fridgeKw,proto3" json:"fridge_kw,omitempty"`
-	FurnaceKw     float32                `protobuf:"fixed32,7,opt,name=furnace_kw,json=furnaceKw,proto3" json:"furnace_kw,omitempty"`
-	Humidity      float32                `protobuf:"fixed32,8,opt,name=humidity,proto3" json:"humidity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	RecordedAt      string                 `protobuf:"bytes,2,opt,name=recorded_at,json=recordedAt,proto3" json:"recorded_at,omitempty"`
+	UsageOverall    float32                `protobuf:"fixed32,3,opt,name=usage_overall,json=usageOverall,proto3" json:"usage_overall,omitempty"`
+	SolarGeneration float32                `protobuf:"fixed32,4,opt,name=solar_generation,json=solarGeneration,proto3" json:"solar_generation,omitempty"`
+	FridgeKw        float32                `protobuf:"fixed32,5,opt,name=fridge_kw,json=fridgeKw,proto3" json:"fridge_kw,omitempty"`
+	FurnaceKw       float32                `protobuf:"fixed32,6,opt,name=furnace_kw,json=furnaceKw,proto3" json:"furnace_kw,omitempty"`
+	HomeOfficeKw    float32                `protobuf:"fixed32,7,opt,name=home_office_kw,json=homeOfficeKw,proto3" json:"home_office_kw,omitempty"`
+	Temperature     float32                `protobuf:"fixed32,8,opt,name=temperature,proto3" json:"temperature,omitempty"`
+	Humidity        float32                `protobuf:"fixed32,9,opt,name=humidity,proto3" json:"humidity,omitempty"`
+	Summary         string                 `protobuf:"bytes,10,opt,name=summary,proto3" json:"summary,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *MeasurementData) Reset() {
@@ -282,18 +292,11 @@ func (x *MeasurementData) GetUsageOverall() float32 {
 	return 0
 }
 
-func (x *MeasurementData) GetTemperature() float32 {
+func (x *MeasurementData) GetSolarGeneration() float32 {
 	if x != nil {
-		return x.Temperature
+		return x.SolarGeneration
 	}
 	return 0
-}
-
-func (x *MeasurementData) GetSummary() string {
-	if x != nil {
-		return x.Summary
-	}
-	return ""
 }
 
 func (x *MeasurementData) GetFridgeKw() float32 {
@@ -310,11 +313,32 @@ func (x *MeasurementData) GetFurnaceKw() float32 {
 	return 0
 }
 
+func (x *MeasurementData) GetHomeOfficeKw() float32 {
+	if x != nil {
+		return x.HomeOfficeKw
+	}
+	return 0
+}
+
+func (x *MeasurementData) GetTemperature() float32 {
+	if x != nil {
+		return x.Temperature
+	}
+	return 0
+}
+
 func (x *MeasurementData) GetHumidity() float32 {
 	if x != nil {
 		return x.Humidity
 	}
 	return 0
+}
+
+func (x *MeasurementData) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
 }
 
 type MeasurementsResponse struct {
@@ -557,7 +581,9 @@ type StatsResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	AvgTemperature float32                `protobuf:"fixed32,1,opt,name=avg_temperature,json=avgTemperature,proto3" json:"avg_temperature,omitempty"`
 	MaxTemperature float32                `protobuf:"fixed32,2,opt,name=max_temperature,json=maxTemperature,proto3" json:"max_temperature,omitempty"`
-	TotalReadings  int64                  `protobuf:"varint,3,opt,name=total_readings,json=totalReadings,proto3" json:"total_readings,omitempty"`
+	AvgUsage       float32                `protobuf:"fixed32,3,opt,name=avg_usage,json=avgUsage,proto3" json:"avg_usage,omitempty"`
+	MaxUsage       float32                `protobuf:"fixed32,4,opt,name=max_usage,json=maxUsage,proto3" json:"max_usage,omitempty"`
+	TotalReadings  int64                  `protobuf:"varint,5,opt,name=total_readings,json=totalReadings,proto3" json:"total_readings,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -606,6 +632,20 @@ func (x *StatsResponse) GetMaxTemperature() float32 {
 	return 0
 }
 
+func (x *StatsResponse) GetAvgUsage() float32 {
+	if x != nil {
+		return x.AvgUsage
+	}
+	return 0
+}
+
+func (x *StatsResponse) GetMaxUsage() float32 {
+	if x != nil {
+		return x.MaxUsage
+	}
+	return 0
+}
+
 func (x *StatsResponse) GetTotalReadings() int64 {
 	if x != nil {
 		return x.TotalReadings
@@ -617,34 +657,38 @@ var File_proto_iot_proto protoreflect.FileDescriptor
 
 const file_proto_iot_proto_rawDesc = "" +
 	"\n" +
-	"\x0fproto/iot.proto\"\x93\x02\n" +
+	"\x0fproto/iot.proto\"\xbf\x02\n" +
 	"\x12MeasurementRequest\x12\x1f\n" +
 	"\vrecorded_at\x18\x01 \x01(\tR\n" +
 	"recordedAt\x12#\n" +
-	"\rusage_overall\x18\x02 \x01(\x02R\fusageOverall\x12\x1b\n" +
-	"\tfridge_kw\x18\x03 \x01(\x02R\bfridgeKw\x12#\n" +
-	"\rdishwasher_kw\x18\x04 \x01(\x02R\fdishwasherKw\x12\x1d\n" +
+	"\rusage_overall\x18\x02 \x01(\x02R\fusageOverall\x12)\n" +
+	"\x10solar_generation\x18\x03 \x01(\x02R\x0fsolarGeneration\x12\x1b\n" +
+	"\tfridge_kw\x18\x04 \x01(\x02R\bfridgeKw\x12\x1d\n" +
 	"\n" +
-	"furnace_kw\x18\x05 \x01(\x02R\tfurnaceKw\x12 \n" +
-	"\vtemperature\x18\x06 \x01(\x02R\vtemperature\x12\x1a\n" +
-	"\bhumidity\x18\a \x01(\x02R\bhumidity\x12\x18\n" +
-	"\asummary\x18\b \x01(\tR\asummary\"I\n" +
+	"furnace_kw\x18\x05 \x01(\x02R\tfurnaceKw\x12$\n" +
+	"\x0ehome_office_kw\x18\x06 \x01(\x02R\fhomeOfficeKw\x12 \n" +
+	"\vtemperature\x18\a \x01(\x02R\vtemperature\x12\x1a\n" +
+	"\bhumidity\x18\b \x01(\x02R\bhumidity\x12\x18\n" +
+	"\asummary\x18\t \x01(\tR\asummary\"I\n" +
 	"\x13MeasurementResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\".\n" +
 	"\x16GetMeasurementsRequest\x12\x14\n" +
-	"\x05limit\x18\x01 \x01(\x05R\x05limit\"\xfb\x01\n" +
+	"\x05limit\x18\x01 \x01(\x05R\x05limit\"\xcc\x02\n" +
 	"\x0fMeasurementData\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
 	"\vrecorded_at\x18\x02 \x01(\tR\n" +
 	"recordedAt\x12#\n" +
-	"\rusage_overall\x18\x03 \x01(\x02R\fusageOverall\x12 \n" +
-	"\vtemperature\x18\x04 \x01(\x02R\vtemperature\x12\x18\n" +
-	"\asummary\x18\x05 \x01(\tR\asummary\x12\x1b\n" +
-	"\tfridge_kw\x18\x06 \x01(\x02R\bfridgeKw\x12\x1d\n" +
+	"\rusage_overall\x18\x03 \x01(\x02R\fusageOverall\x12)\n" +
+	"\x10solar_generation\x18\x04 \x01(\x02R\x0fsolarGeneration\x12\x1b\n" +
+	"\tfridge_kw\x18\x05 \x01(\x02R\bfridgeKw\x12\x1d\n" +
 	"\n" +
-	"furnace_kw\x18\a \x01(\x02R\tfurnaceKw\x12\x1a\n" +
-	"\bhumidity\x18\b \x01(\x02R\bhumidity\"L\n" +
+	"furnace_kw\x18\x06 \x01(\x02R\tfurnaceKw\x12$\n" +
+	"\x0ehome_office_kw\x18\a \x01(\x02R\fhomeOfficeKw\x12 \n" +
+	"\vtemperature\x18\b \x01(\x02R\vtemperature\x12\x1a\n" +
+	"\bhumidity\x18\t \x01(\x02R\bhumidity\x12\x18\n" +
+	"\asummary\x18\n" +
+	" \x01(\tR\asummary\"L\n" +
 	"\x14MeasurementsResponse\x124\n" +
 	"\fmeasurements\x18\x01 \x03(\v2\x10.MeasurementDataR\fmeasurements\"(\n" +
 	"\x10SelectiveRequest\x12\x14\n" +
@@ -657,11 +701,13 @@ const file_proto_iot_proto_rawDesc = "" +
 	"\bhumidity\x18\x04 \x01(\x02R\bhumidity\"7\n" +
 	"\x11SelectiveResponse\x12\"\n" +
 	"\x04data\x18\x01 \x03(\v2\x0e.SelectiveDataR\x04data\"\x0e\n" +
-	"\fStatsRequest\"\x88\x01\n" +
+	"\fStatsRequest\"\xc2\x01\n" +
 	"\rStatsResponse\x12'\n" +
 	"\x0favg_temperature\x18\x01 \x01(\x02R\x0eavgTemperature\x12'\n" +
-	"\x0fmax_temperature\x18\x02 \x01(\x02R\x0emaxTemperature\x12%\n" +
-	"\x0etotal_readings\x18\x03 \x01(\x03R\rtotalReadings2\xf6\x01\n" +
+	"\x0fmax_temperature\x18\x02 \x01(\x02R\x0emaxTemperature\x12\x1b\n" +
+	"\tavg_usage\x18\x03 \x01(\x02R\bavgUsage\x12\x1b\n" +
+	"\tmax_usage\x18\x04 \x01(\x02R\bmaxUsage\x12%\n" +
+	"\x0etotal_readings\x18\x05 \x01(\x03R\rtotalReadings2\xf6\x01\n" +
 	"\rSensorService\x12<\n" +
 	"\x0fSaveMeasurement\x12\x13.MeasurementRequest\x1a\x14.MeasurementResponse\x12A\n" +
 	"\x0fGetMeasurements\x12\x17.GetMeasurementsRequest\x1a\x15.MeasurementsResponse\x129\n" +
