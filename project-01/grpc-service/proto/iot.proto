@@ -52,7 +52,7 @@ message MeasurementsResponse {
     repeated MeasurementData measurements = 1;
 }
 
-// --- Scenario B: Selective (samo temperature + humidity) ---
+// --- Scenario B: Selective ---
 
 message SelectiveRequest {
     int32 limit = 1;
@@ -69,7 +69,7 @@ message SelectiveResponse {
     repeated SelectiveData data = 1;
 }
 
-// --- Scenario C: Stats / agregacije ---
+// --- Scenario C: agregacije ---
 
 message StatsRequest {}
 

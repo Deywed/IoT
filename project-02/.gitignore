@@ -1,0 +1,14 @@
+# .NET
+**/bin/
+**/obj/
+
+# Node
+**/node_modules/
+**/dist/
+
+# Lokalna konfiguracija
+.env
+
+# Eksperimentalni izlazi (čuvati samo .gitkeep; po želji commit-ovati konkretne rezultate)
+benchmarks/results/*
+!benchmarks/results/.gitkeep

@@ -1,0 +1,181 @@
+# Projekat 2 — event-driven IoT mikroservisi (MQTT vs Kafka)
+#
+# Dva broker steka biramo PROFILIMA (uvek radi samo jedan broker -> manji otisak):
+#   docker compose --profile mqtt  up --build
+#   docker compose --profile kafka up --build
+#
+# `db` nema profil -> uvek je gore. Svaki servis ima dve varijante (-mqtt / -kafka)
+# koje se grade iz ISTOG konteksta i razlikuju se samo po BROKER env promenljivoj.
+
+services:
+  # ── Deljena baza (oba profila) ────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ════════════════════════════════════════════════════════════════════════
+  #  MQTT PROFIL
+  # ════════════════════════════════════════════════════════════════════════
+  mosquitto:
+    image: eclipse-mosquitto:2
+    profiles: ["mqtt"]
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./broker-config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto_data:/mosquitto/data
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -h localhost -t '$$SYS/#' -C 1 -W 3 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  ingestion-mqtt:
+    build: ./services/ingestion-service
+    image: proj02-ingestion
+    profiles: ["mqtt"]
+    environment:
+      BROKER: mqtt
+      MQTT_HOST: mosquitto
+      MQTT_PORT: "1883"
+      MQTT_QOS: ${MQTT_QOS:-1}
+      TOPIC: iot/measurements
+      DEVICE_COUNT: ${DEVICE_COUNT:-100}
+      MSG_RATE: ${MSG_RATE:-10}
+      CRITICAL_MODE: ${CRITICAL_MODE:-false}
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+
+  storage-mqtt:
+    build: ./services/storage-service
+    image: proj02-storage
+    profiles: ["mqtt"]
+    environment:
+      BROKER: mqtt
+      MQTT_HOST: mosquitto
+      MQTT_PORT: "1883"
+      MQTT_QOS: ${MQTT_QOS:-1}
+      TOPIC: iot/measurements
+      DB_CONN: "Host=db;Database=mydb;Username=myuser;Password=mypassword"
+      STORAGE_WRITE_ENABLED: ${STORAGE_WRITE_ENABLED:-true}
+      STORAGE_BATCH_SIZE: ${STORAGE_BATCH_SIZE:-500}
+      STORAGE_FLUSH_MS: ${STORAGE_FLUSH_MS:-2000}
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+
+  analytics-mqtt:
+    build: ./services/analytics-service
+    image: proj02-analytics
+    profiles: ["mqtt"]
+    environment:
+      BROKER: mqtt
+      MQTT_HOST: mosquitto
+      MQTT_PORT: "1883"
+      MQTT_QOS: ${MQTT_QOS:-1}
+      TOPIC: iot/measurements
+      ALERT_THRESHOLD: ${ALERT_THRESHOLD:-50}
+      WINDOW_SECONDS: ${WINDOW_SECONDS:-10}
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+
+  # ════════════════════════════════════════════════════════════════════════
+  #  KAFKA PROFIL (KRaft režim — bez Zookeeper-a)
+  # ════════════════════════════════════════════════════════════════════════
+  kafka:
+    image: apache/kafka:3.9.0
+    profiles: ["kafka"]
+    ports:
+      - "9092:9092"
+      - "29092:29092"   # listener za pristup sa host mašine
+    environment:
+      KAFKA_NODE_ID: "1"
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,PLAINTEXT_HOST://0.0.0.0:29092"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: "0"
+      KAFKA_NUM_PARTITIONS: "3"          # podrazumevani broj particija za nove topike
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  ingestion-kafka:
+    build: ./services/ingestion-service
+    image: proj02-ingestion
+    profiles: ["kafka"]
+    environment:
+      BROKER: kafka
+      KAFKA_BOOTSTRAP: kafka:9092
+      KAFKA_ACKS: ${KAFKA_ACKS:-1}
+      TOPIC: iot-measurements
+      DEVICE_COUNT: ${DEVICE_COUNT:-100}
+      MSG_RATE: ${MSG_RATE:-10}
+      CRITICAL_MODE: ${CRITICAL_MODE:-false}
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  storage-kafka:
+    build: ./services/storage-service
+    image: proj02-storage
+    profiles: ["kafka"]
+    environment:
+      BROKER: kafka
+      KAFKA_BOOTSTRAP: kafka:9092
+      KAFKA_GROUP_ID: storage-group
+      TOPIC: iot-measurements
+      DB_CONN: "Host=db;Database=mydb;Username=myuser;Password=mypassword"
+      STORAGE_WRITE_ENABLED: ${STORAGE_WRITE_ENABLED:-true}
+      STORAGE_BATCH_SIZE: ${STORAGE_BATCH_SIZE:-500}
+      STORAGE_FLUSH_MS: ${STORAGE_FLUSH_MS:-2000}
+    depends_on:
+      kafka:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+
+  analytics-kafka:
+    build: ./services/analytics-service
+    image: proj02-analytics
+    profiles: ["kafka"]
+    environment:
+      BROKER: kafka
+      KAFKA_BOOTSTRAP: kafka:9092
+      KAFKA_GROUP_ID: analytics-group
+      TOPIC: iot-measurements
+      ALERT_THRESHOLD: ${ALERT_THRESHOLD:-50}
+      WINDOW_SECONDS: ${WINDOW_SECONDS:-10}
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+volumes:
+  db_data:
+  mosquitto_data:

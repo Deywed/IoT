@@ -24,44 +24,46 @@ namespace IotProject {
     static IotReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cglpb3QucHJvdG8itgEKEk1lYXN1cmVtZW50UmVxdWVzdBITCgtyZWNvcmRl",
-            "ZF9hdBgBIAEoCRIVCg11c2FnZV9vdmVyYWxsGAIgASgCEhEKCWZyaWRnZV9r",
-            "dxgDIAEoAhIVCg1kaXNod2FzaGVyX2t3GAQgASgCEhIKCmZ1cm5hY2Vfa3cY",
-            "BSABKAISEwoLdGVtcGVyYXR1cmUYBiABKAISEAoIaHVtaWRpdHkYByABKAIS",
-            "DwoHc3VtbWFyeRgIIAEoCSI3ChNNZWFzdXJlbWVudFJlc3BvbnNlEg8KB3N1",
-            "Y2Nlc3MYASABKAgSDwoHbWVzc2FnZRgCIAEoCSInChZHZXRNZWFzdXJlbWVu",
-            "dHNSZXF1ZXN0Eg0KBWxpbWl0GAEgASgFIqgBCg9NZWFzdXJlbWVudERhdGES",
-            "CgoCaWQYASABKAMSEwoLcmVjb3JkZWRfYXQYAiABKAkSFQoNdXNhZ2Vfb3Zl",
-            "cmFsbBgDIAEoAhITCgt0ZW1wZXJhdHVyZRgEIAEoAhIPCgdzdW1tYXJ5GAUg",
-            "ASgJEhEKCWZyaWRnZV9rdxgGIAEoAhISCgpmdXJuYWNlX2t3GAcgASgCEhAK",
-            "CGh1bWlkaXR5GAggASgCIj4KFE1lYXN1cmVtZW50c1Jlc3BvbnNlEiYKDG1l",
-            "YXN1cmVtZW50cxgBIAMoCzIQLk1lYXN1cmVtZW50RGF0YSIhChBTZWxlY3Rp",
-            "dmVSZXF1ZXN0Eg0KBWxpbWl0GAEgASgFIlcKDVNlbGVjdGl2ZURhdGESCgoC",
-            "aWQYASABKAMSEwoLcmVjb3JkZWRfYXQYAiABKAkSEwoLdGVtcGVyYXR1cmUY",
-            "AyABKAISEAoIaHVtaWRpdHkYBCABKAIiMQoRU2VsZWN0aXZlUmVzcG9uc2US",
-            "HAoEZGF0YRgBIAMoCzIOLlNlbGVjdGl2ZURhdGEiDgoMU3RhdHNSZXF1ZXN0",
-            "IlkKDVN0YXRzUmVzcG9uc2USFwoPYXZnX3RlbXBlcmF0dXJlGAEgASgCEhcK",
-            "D21heF90ZW1wZXJhdHVyZRgCIAEoAhIWCg50b3RhbF9yZWFkaW5ncxgDIAEo",
-            "AzL2AQoNU2Vuc29yU2VydmljZRI8Cg9TYXZlTWVhc3VyZW1lbnQSEy5NZWFz",
-            "dXJlbWVudFJlcXVlc3QaFC5NZWFzdXJlbWVudFJlc3BvbnNlEkEKD0dldE1l",
-            "YXN1cmVtZW50cxIXLkdldE1lYXN1cmVtZW50c1JlcXVlc3QaFS5NZWFzdXJl",
-            "bWVudHNSZXNwb25zZRI5ChBHZXRTZWxlY3RpdmVEYXRhEhEuU2VsZWN0aXZl",
-            "UmVxdWVzdBoSLlNlbGVjdGl2ZVJlc3BvbnNlEikKCEdldFN0YXRzEg0uU3Rh",
-            "dHNSZXF1ZXN0Gg4uU3RhdHNSZXNwb25zZUITWgQuL3BiqgIKSW90UHJvamVj",
-            "dGIGcHJvdG8z"));
+            "Cglpb3QucHJvdG8i0QEKEk1lYXN1cmVtZW50UmVxdWVzdBITCgtyZWNvcmRl",
+            "ZF9hdBgBIAEoCRIVCg11c2FnZV9vdmVyYWxsGAIgASgCEhgKEHNvbGFyX2dl",
+            "bmVyYXRpb24YAyABKAISEQoJZnJpZGdlX2t3GAQgASgCEhIKCmZ1cm5hY2Vf",
+            "a3cYBSABKAISFgoOaG9tZV9vZmZpY2Vfa3cYBiABKAISEwoLdGVtcGVyYXR1",
+            "cmUYByABKAISEAoIaHVtaWRpdHkYCCABKAISDwoHc3VtbWFyeRgJIAEoCSI3",
+            "ChNNZWFzdXJlbWVudFJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSDwoHbWVz",
+            "c2FnZRgCIAEoCSInChZHZXRNZWFzdXJlbWVudHNSZXF1ZXN0Eg0KBWxpbWl0",
+            "GAEgASgFItoBCg9NZWFzdXJlbWVudERhdGESCgoCaWQYASABKAMSEwoLcmVj",
+            "b3JkZWRfYXQYAiABKAkSFQoNdXNhZ2Vfb3ZlcmFsbBgDIAEoAhIYChBzb2xh",
+            "cl9nZW5lcmF0aW9uGAQgASgCEhEKCWZyaWRnZV9rdxgFIAEoAhISCgpmdXJu",
+            "YWNlX2t3GAYgASgCEhYKDmhvbWVfb2ZmaWNlX2t3GAcgASgCEhMKC3RlbXBl",
+            "cmF0dXJlGAggASgCEhAKCGh1bWlkaXR5GAkgASgCEg8KB3N1bW1hcnkYCiAB",
+            "KAkiPgoUTWVhc3VyZW1lbnRzUmVzcG9uc2USJgoMbWVhc3VyZW1lbnRzGAEg",
+            "AygLMhAuTWVhc3VyZW1lbnREYXRhIiEKEFNlbGVjdGl2ZVJlcXVlc3QSDQoF",
+            "bGltaXQYASABKAUiVwoNU2VsZWN0aXZlRGF0YRIKCgJpZBgBIAEoAxITCgty",
+            "ZWNvcmRlZF9hdBgCIAEoCRITCgt0ZW1wZXJhdHVyZRgDIAEoAhIQCghodW1p",
+            "ZGl0eRgEIAEoAiIxChFTZWxlY3RpdmVSZXNwb25zZRIcCgRkYXRhGAEgAygL",
+            "Mg4uU2VsZWN0aXZlRGF0YSIOCgxTdGF0c1JlcXVlc3QifwoNU3RhdHNSZXNw",
+            "b25zZRIXCg9hdmdfdGVtcGVyYXR1cmUYASABKAISFwoPbWF4X3RlbXBlcmF0",
+            "dXJlGAIgASgCEhEKCWF2Z191c2FnZRgDIAEoAhIRCgltYXhfdXNhZ2UYBCAB",
+            "KAISFgoOdG90YWxfcmVhZGluZ3MYBSABKAMy9gEKDVNlbnNvclNlcnZpY2US",
+            "PAoPU2F2ZU1lYXN1cmVtZW50EhMuTWVhc3VyZW1lbnRSZXF1ZXN0GhQuTWVh",
+            "c3VyZW1lbnRSZXNwb25zZRJBCg9HZXRNZWFzdXJlbWVudHMSFy5HZXRNZWFz",
+            "dXJlbWVudHNSZXF1ZXN0GhUuTWVhc3VyZW1lbnRzUmVzcG9uc2USOQoQR2V0",
+            "U2VsZWN0aXZlRGF0YRIRLlNlbGVjdGl2ZVJlcXVlc3QaEi5TZWxlY3RpdmVS",
+            "ZXNwb25zZRIpCghHZXRTdGF0cxINLlN0YXRzUmVxdWVzdBoOLlN0YXRzUmVz",
+            "cG9uc2VCE1oELi9wYqoCCklvdFByb2plY3RiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.MeasurementRequest), global::IotProject.MeasurementRequest.Parser, new[]{ "RecordedAt", "UsageOverall", "FridgeKw", "DishwasherKw", "FurnaceKw", "Temperature", "Humidity", "Summary" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.MeasurementRequest), global::IotProject.MeasurementRequest.Parser, new[]{ "RecordedAt", "UsageOverall", "SolarGeneration", "FridgeKw", "FurnaceKw", "HomeOfficeKw", "Temperature", "Humidity", "Summary" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.MeasurementResponse), global::IotProject.MeasurementResponse.Parser, new[]{ "Success", "Message" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.GetMeasurementsRequest), global::IotProject.GetMeasurementsRequest.Parser, new[]{ "Limit" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.MeasurementData), global::IotProject.MeasurementData.Parser, new[]{ "Id", "RecordedAt", "UsageOverall", "Temperature", "Summary", "FridgeKw", "FurnaceKw", "Humidity" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.MeasurementData), global::IotProject.MeasurementData.Parser, new[]{ "Id", "RecordedAt", "UsageOverall", "SolarGeneration", "FridgeKw", "FurnaceKw", "HomeOfficeKw", "Temperature", "Humidity", "Summary" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.MeasurementsResponse), global::IotProject.MeasurementsResponse.Parser, new[]{ "Measurements" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.SelectiveRequest), global::IotProject.SelectiveRequest.Parser, new[]{ "Limit" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.SelectiveData), global::IotProject.SelectiveData.Parser, new[]{ "Id", "RecordedAt", "Temperature", "Humidity" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.SelectiveResponse), global::IotProject.SelectiveResponse.Parser, new[]{ "Data" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.StatsRequest), global::IotProject.StatsRequest.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.StatsResponse), global::IotProject.StatsResponse.Parser, new[]{ "AvgTemperature", "MaxTemperature", "TotalReadings" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::IotProject.StatsResponse), global::IotProject.StatsResponse.Parser, new[]{ "AvgTemperature", "MaxTemperature", "AvgUsage", "MaxUsage", "TotalReadings" }, null, null, null, null)
           }));
     }
     #endregion
@@ -105,9 +107,10 @@ namespace IotProject {
     public MeasurementRequest(MeasurementRequest other) : this() {
       recordedAt_ = other.recordedAt_;
       usageOverall_ = other.usageOverall_;
+      solarGeneration_ = other.solarGeneration_;
       fridgeKw_ = other.fridgeKw_;
-      dishwasherKw_ = other.dishwasherKw_;
       furnaceKw_ = other.furnaceKw_;
+      homeOfficeKw_ = other.homeOfficeKw_;
       temperature_ = other.temperature_;
       humidity_ = other.humidity_;
       summary_ = other.summary_;
@@ -144,8 +147,20 @@ namespace IotProject {
       }
     }
 
+    /// <summary>Field number for the "solar_generation" field.</summary>
+    public const int SolarGenerationFieldNumber = 3;
+    private float solarGeneration_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float SolarGeneration {
+      get { return solarGeneration_; }
+      set {
+        solarGeneration_ = value;
+      }
+    }
+
     /// <summary>Field number for the "fridge_kw" field.</summary>
-    public const int FridgeKwFieldNumber = 3;
+    public const int FridgeKwFieldNumber = 4;
     private float fridgeKw_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -153,18 +168,6 @@ namespace IotProject {
       get { return fridgeKw_; }
       set {
         fridgeKw_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "dishwasher_kw" field.</summary>
-    public const int DishwasherKwFieldNumber = 4;
-    private float dishwasherKw_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float DishwasherKw {
-      get { return dishwasherKw_; }
-      set {
-        dishwasherKw_ = value;
       }
     }
 
@@ -180,8 +183,20 @@ namespace IotProject {
       }
     }
 
+    /// <summary>Field number for the "home_office_kw" field.</summary>
+    public const int HomeOfficeKwFieldNumber = 6;
+    private float homeOfficeKw_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float HomeOfficeKw {
+      get { return homeOfficeKw_; }
+      set {
+        homeOfficeKw_ = value;
+      }
+    }
+
     /// <summary>Field number for the "temperature" field.</summary>
-    public const int TemperatureFieldNumber = 6;
+    public const int TemperatureFieldNumber = 7;
     private float temperature_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -193,7 +208,7 @@ namespace IotProject {
     }
 
     /// <summary>Field number for the "humidity" field.</summary>
-    public const int HumidityFieldNumber = 7;
+    public const int HumidityFieldNumber = 8;
     private float humidity_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -205,7 +220,7 @@ namespace IotProject {
     }
 
     /// <summary>Field number for the "summary" field.</summary>
-    public const int SummaryFieldNumber = 8;
+    public const int SummaryFieldNumber = 9;
     private string summary_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -233,9 +248,10 @@ namespace IotProject {
       }
       if (RecordedAt != other.RecordedAt) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(UsageOverall, other.UsageOverall)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(SolarGeneration, other.SolarGeneration)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(FridgeKw, other.FridgeKw)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DishwasherKw, other.DishwasherKw)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(FurnaceKw, other.FurnaceKw)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(HomeOfficeKw, other.HomeOfficeKw)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Temperature, other.Temperature)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Humidity, other.Humidity)) return false;
       if (Summary != other.Summary) return false;
@@ -248,9 +264,10 @@ namespace IotProject {
       int hash = 1;
       if (RecordedAt.Length != 0) hash ^= RecordedAt.GetHashCode();
       if (UsageOverall != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(UsageOverall);
+      if (SolarGeneration != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(SolarGeneration);
       if (FridgeKw != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(FridgeKw);
-      if (DishwasherKw != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DishwasherKw);
       if (FurnaceKw != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(FurnaceKw);
+      if (HomeOfficeKw != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(HomeOfficeKw);
       if (Temperature != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Temperature);
       if (Humidity != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Humidity);
       if (Summary.Length != 0) hash ^= Summary.GetHashCode();
@@ -280,28 +297,32 @@ namespace IotProject {
         output.WriteRawTag(21);
         output.WriteFloat(UsageOverall);
       }
-      if (FridgeKw != 0F) {
+      if (SolarGeneration != 0F) {
         output.WriteRawTag(29);
-        output.WriteFloat(FridgeKw);
+        output.WriteFloat(SolarGeneration);
       }
-      if (DishwasherKw != 0F) {
+      if (FridgeKw != 0F) {
         output.WriteRawTag(37);
-        output.WriteFloat(DishwasherKw);
+        output.WriteFloat(FridgeKw);
       }
       if (FurnaceKw != 0F) {
         output.WriteRawTag(45);
         output.WriteFloat(FurnaceKw);
       }
-      if (Temperature != 0F) {
+      if (HomeOfficeKw != 0F) {
         output.WriteRawTag(53);
+        output.WriteFloat(HomeOfficeKw);
+      }
+      if (Temperature != 0F) {
+        output.WriteRawTag(61);
         output.WriteFloat(Temperature);
       }
       if (Humidity != 0F) {
-        output.WriteRawTag(61);
+        output.WriteRawTag(69);
         output.WriteFloat(Humidity);
       }
       if (Summary.Length != 0) {
-        output.WriteRawTag(66);
+        output.WriteRawTag(74);
         output.WriteString(Summary);
       }
       if (_unknownFields != null) {
@@ -322,28 +343,32 @@ namespace IotProject {
         output.WriteRawTag(21);
         output.WriteFloat(UsageOverall);
       }
-      if (FridgeKw != 0F) {
+      if (SolarGeneration != 0F) {
         output.WriteRawTag(29);
-        output.WriteFloat(FridgeKw);
+        output.WriteFloat(SolarGeneration);
       }
-      if (DishwasherKw != 0F) {
+      if (FridgeKw != 0F) {
         output.WriteRawTag(37);
-        output.WriteFloat(DishwasherKw);
+        output.WriteFloat(FridgeKw);
       }
       if (FurnaceKw != 0F) {
         output.WriteRawTag(45);
         output.WriteFloat(FurnaceKw);
       }
-      if (Temperature != 0F) {
+      if (HomeOfficeKw != 0F) {
         output.WriteRawTag(53);
+        output.WriteFloat(HomeOfficeKw);
+      }
+      if (Temperature != 0F) {
+        output.WriteRawTag(61);
         output.WriteFloat(Temperature);
       }
       if (Humidity != 0F) {
-        output.WriteRawTag(61);
+        output.WriteRawTag(69);
         output.WriteFloat(Humidity);
       }
       if (Summary.Length != 0) {
-        output.WriteRawTag(66);
+        output.WriteRawTag(74);
         output.WriteString(Summary);
       }
       if (_unknownFields != null) {
@@ -362,13 +387,16 @@ namespace IotProject {
       if (UsageOverall != 0F) {
         size += 1 + 4;
       }
+      if (SolarGeneration != 0F) {
+        size += 1 + 4;
+      }
       if (FridgeKw != 0F) {
         size += 1 + 4;
       }
-      if (DishwasherKw != 0F) {
+      if (FurnaceKw != 0F) {
         size += 1 + 4;
       }
-      if (FurnaceKw != 0F) {
+      if (HomeOfficeKw != 0F) {
         size += 1 + 4;
       }
       if (Temperature != 0F) {
@@ -398,14 +426,17 @@ namespace IotProject {
       if (other.UsageOverall != 0F) {
         UsageOverall = other.UsageOverall;
       }
+      if (other.SolarGeneration != 0F) {
+        SolarGeneration = other.SolarGeneration;
+      }
       if (other.FridgeKw != 0F) {
         FridgeKw = other.FridgeKw;
       }
-      if (other.DishwasherKw != 0F) {
-        DishwasherKw = other.DishwasherKw;
-      }
       if (other.FurnaceKw != 0F) {
         FurnaceKw = other.FurnaceKw;
+      }
+      if (other.HomeOfficeKw != 0F) {
+        HomeOfficeKw = other.HomeOfficeKw;
       }
       if (other.Temperature != 0F) {
         Temperature = other.Temperature;
@@ -444,11 +475,11 @@ namespace IotProject {
             break;
           }
           case 29: {
-            FridgeKw = input.ReadFloat();
+            SolarGeneration = input.ReadFloat();
             break;
           }
           case 37: {
-            DishwasherKw = input.ReadFloat();
+            FridgeKw = input.ReadFloat();
             break;
           }
           case 45: {
@@ -456,14 +487,18 @@ namespace IotProject {
             break;
           }
           case 53: {
-            Temperature = input.ReadFloat();
+            HomeOfficeKw = input.ReadFloat();
             break;
           }
           case 61: {
+            Temperature = input.ReadFloat();
+            break;
+          }
+          case 69: {
             Humidity = input.ReadFloat();
             break;
           }
-          case 66: {
+          case 74: {
             Summary = input.ReadString();
             break;
           }
@@ -495,11 +530,11 @@ namespace IotProject {
             break;
           }
           case 29: {
-            FridgeKw = input.ReadFloat();
+            SolarGeneration = input.ReadFloat();
             break;
           }
           case 37: {
-            DishwasherKw = input.ReadFloat();
+            FridgeKw = input.ReadFloat();
             break;
           }
           case 45: {
@@ -507,14 +542,18 @@ namespace IotProject {
             break;
           }
           case 53: {
-            Temperature = input.ReadFloat();
+            HomeOfficeKw = input.ReadFloat();
             break;
           }
           case 61: {
+            Temperature = input.ReadFloat();
+            break;
+          }
+          case 69: {
             Humidity = input.ReadFloat();
             break;
           }
-          case 66: {
+          case 74: {
             Summary = input.ReadString();
             break;
           }
@@ -996,11 +1035,13 @@ namespace IotProject {
       id_ = other.id_;
       recordedAt_ = other.recordedAt_;
       usageOverall_ = other.usageOverall_;
-      temperature_ = other.temperature_;
-      summary_ = other.summary_;
+      solarGeneration_ = other.solarGeneration_;
       fridgeKw_ = other.fridgeKw_;
       furnaceKw_ = other.furnaceKw_;
+      homeOfficeKw_ = other.homeOfficeKw_;
+      temperature_ = other.temperature_;
       humidity_ = other.humidity_;
+      summary_ = other.summary_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1046,32 +1087,20 @@ namespace IotProject {
       }
     }
 
-    /// <summary>Field number for the "temperature" field.</summary>
-    public const int TemperatureFieldNumber = 4;
-    private float temperature_;
+    /// <summary>Field number for the "solar_generation" field.</summary>
+    public const int SolarGenerationFieldNumber = 4;
+    private float solarGeneration_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float Temperature {
-      get { return temperature_; }
+    public float SolarGeneration {
+      get { return solarGeneration_; }
       set {
-        temperature_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "summary" field.</summary>
-    public const int SummaryFieldNumber = 5;
-    private string summary_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Summary {
-      get { return summary_; }
-      set {
-        summary_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        solarGeneration_ = value;
       }
     }
 
     /// <summary>Field number for the "fridge_kw" field.</summary>
-    public const int FridgeKwFieldNumber = 6;
+    public const int FridgeKwFieldNumber = 5;
     private float fridgeKw_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1083,7 +1112,7 @@ namespace IotProject {
     }
 
     /// <summary>Field number for the "furnace_kw" field.</summary>
-    public const int FurnaceKwFieldNumber = 7;
+    public const int FurnaceKwFieldNumber = 6;
     private float furnaceKw_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1094,8 +1123,32 @@ namespace IotProject {
       }
     }
 
+    /// <summary>Field number for the "home_office_kw" field.</summary>
+    public const int HomeOfficeKwFieldNumber = 7;
+    private float homeOfficeKw_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float HomeOfficeKw {
+      get { return homeOfficeKw_; }
+      set {
+        homeOfficeKw_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "temperature" field.</summary>
+    public const int TemperatureFieldNumber = 8;
+    private float temperature_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float Temperature {
+      get { return temperature_; }
+      set {
+        temperature_ = value;
+      }
+    }
+
     /// <summary>Field number for the "humidity" field.</summary>
-    public const int HumidityFieldNumber = 8;
+    public const int HumidityFieldNumber = 9;
     private float humidity_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1103,6 +1156,18 @@ namespace IotProject {
       get { return humidity_; }
       set {
         humidity_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "summary" field.</summary>
+    public const int SummaryFieldNumber = 10;
+    private string summary_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Summary {
+      get { return summary_; }
+      set {
+        summary_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -1124,11 +1189,13 @@ namespace IotProject {
       if (Id != other.Id) return false;
       if (RecordedAt != other.RecordedAt) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(UsageOverall, other.UsageOverall)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Temperature, other.Temperature)) return false;
-      if (Summary != other.Summary) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(SolarGeneration, other.SolarGeneration)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(FridgeKw, other.FridgeKw)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(FurnaceKw, other.FurnaceKw)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(HomeOfficeKw, other.HomeOfficeKw)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Temperature, other.Temperature)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Humidity, other.Humidity)) return false;
+      if (Summary != other.Summary) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1139,11 +1206,13 @@ namespace IotProject {
       if (Id != 0L) hash ^= Id.GetHashCode();
       if (RecordedAt.Length != 0) hash ^= RecordedAt.GetHashCode();
       if (UsageOverall != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(UsageOverall);
-      if (Temperature != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Temperature);
-      if (Summary.Length != 0) hash ^= Summary.GetHashCode();
+      if (SolarGeneration != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(SolarGeneration);
       if (FridgeKw != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(FridgeKw);
       if (FurnaceKw != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(FurnaceKw);
+      if (HomeOfficeKw != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(HomeOfficeKw);
+      if (Temperature != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Temperature);
       if (Humidity != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Humidity);
+      if (Summary.Length != 0) hash ^= Summary.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1174,25 +1243,33 @@ namespace IotProject {
         output.WriteRawTag(29);
         output.WriteFloat(UsageOverall);
       }
-      if (Temperature != 0F) {
+      if (SolarGeneration != 0F) {
         output.WriteRawTag(37);
-        output.WriteFloat(Temperature);
-      }
-      if (Summary.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(Summary);
+        output.WriteFloat(SolarGeneration);
       }
       if (FridgeKw != 0F) {
-        output.WriteRawTag(53);
+        output.WriteRawTag(45);
         output.WriteFloat(FridgeKw);
       }
       if (FurnaceKw != 0F) {
-        output.WriteRawTag(61);
+        output.WriteRawTag(53);
         output.WriteFloat(FurnaceKw);
       }
-      if (Humidity != 0F) {
+      if (HomeOfficeKw != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(HomeOfficeKw);
+      }
+      if (Temperature != 0F) {
         output.WriteRawTag(69);
+        output.WriteFloat(Temperature);
+      }
+      if (Humidity != 0F) {
+        output.WriteRawTag(77);
         output.WriteFloat(Humidity);
+      }
+      if (Summary.Length != 0) {
+        output.WriteRawTag(82);
+        output.WriteString(Summary);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1216,25 +1293,33 @@ namespace IotProject {
         output.WriteRawTag(29);
         output.WriteFloat(UsageOverall);
       }
-      if (Temperature != 0F) {
+      if (SolarGeneration != 0F) {
         output.WriteRawTag(37);
-        output.WriteFloat(Temperature);
-      }
-      if (Summary.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(Summary);
+        output.WriteFloat(SolarGeneration);
       }
       if (FridgeKw != 0F) {
-        output.WriteRawTag(53);
+        output.WriteRawTag(45);
         output.WriteFloat(FridgeKw);
       }
       if (FurnaceKw != 0F) {
-        output.WriteRawTag(61);
+        output.WriteRawTag(53);
         output.WriteFloat(FurnaceKw);
       }
-      if (Humidity != 0F) {
+      if (HomeOfficeKw != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(HomeOfficeKw);
+      }
+      if (Temperature != 0F) {
         output.WriteRawTag(69);
+        output.WriteFloat(Temperature);
+      }
+      if (Humidity != 0F) {
+        output.WriteRawTag(77);
         output.WriteFloat(Humidity);
+      }
+      if (Summary.Length != 0) {
+        output.WriteRawTag(82);
+        output.WriteString(Summary);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1255,11 +1340,8 @@ namespace IotProject {
       if (UsageOverall != 0F) {
         size += 1 + 4;
       }
-      if (Temperature != 0F) {
+      if (SolarGeneration != 0F) {
         size += 1 + 4;
-      }
-      if (Summary.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Summary);
       }
       if (FridgeKw != 0F) {
         size += 1 + 4;
@@ -1267,8 +1349,17 @@ namespace IotProject {
       if (FurnaceKw != 0F) {
         size += 1 + 4;
       }
+      if (HomeOfficeKw != 0F) {
+        size += 1 + 4;
+      }
+      if (Temperature != 0F) {
+        size += 1 + 4;
+      }
       if (Humidity != 0F) {
         size += 1 + 4;
+      }
+      if (Summary.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Summary);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1291,11 +1382,8 @@ namespace IotProject {
       if (other.UsageOverall != 0F) {
         UsageOverall = other.UsageOverall;
       }
-      if (other.Temperature != 0F) {
-        Temperature = other.Temperature;
-      }
-      if (other.Summary.Length != 0) {
-        Summary = other.Summary;
+      if (other.SolarGeneration != 0F) {
+        SolarGeneration = other.SolarGeneration;
       }
       if (other.FridgeKw != 0F) {
         FridgeKw = other.FridgeKw;
@@ -1303,8 +1391,17 @@ namespace IotProject {
       if (other.FurnaceKw != 0F) {
         FurnaceKw = other.FurnaceKw;
       }
+      if (other.HomeOfficeKw != 0F) {
+        HomeOfficeKw = other.HomeOfficeKw;
+      }
+      if (other.Temperature != 0F) {
+        Temperature = other.Temperature;
+      }
       if (other.Humidity != 0F) {
         Humidity = other.Humidity;
+      }
+      if (other.Summary.Length != 0) {
+        Summary = other.Summary;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1338,23 +1435,31 @@ namespace IotProject {
             break;
           }
           case 37: {
-            Temperature = input.ReadFloat();
+            SolarGeneration = input.ReadFloat();
             break;
           }
-          case 42: {
-            Summary = input.ReadString();
-            break;
-          }
-          case 53: {
+          case 45: {
             FridgeKw = input.ReadFloat();
             break;
           }
-          case 61: {
+          case 53: {
             FurnaceKw = input.ReadFloat();
             break;
           }
+          case 61: {
+            HomeOfficeKw = input.ReadFloat();
+            break;
+          }
           case 69: {
+            Temperature = input.ReadFloat();
+            break;
+          }
+          case 77: {
             Humidity = input.ReadFloat();
+            break;
+          }
+          case 82: {
+            Summary = input.ReadString();
             break;
           }
         }
@@ -1389,23 +1494,31 @@ namespace IotProject {
             break;
           }
           case 37: {
-            Temperature = input.ReadFloat();
+            SolarGeneration = input.ReadFloat();
             break;
           }
-          case 42: {
-            Summary = input.ReadString();
-            break;
-          }
-          case 53: {
+          case 45: {
             FridgeKw = input.ReadFloat();
             break;
           }
-          case 61: {
+          case 53: {
             FurnaceKw = input.ReadFloat();
             break;
           }
+          case 61: {
+            HomeOfficeKw = input.ReadFloat();
+            break;
+          }
           case 69: {
+            Temperature = input.ReadFloat();
+            break;
+          }
+          case 77: {
             Humidity = input.ReadFloat();
+            break;
+          }
+          case 82: {
+            Summary = input.ReadString();
             break;
           }
         }
@@ -2494,6 +2607,8 @@ namespace IotProject {
     public StatsResponse(StatsResponse other) : this() {
       avgTemperature_ = other.avgTemperature_;
       maxTemperature_ = other.maxTemperature_;
+      avgUsage_ = other.avgUsage_;
+      maxUsage_ = other.maxUsage_;
       totalReadings_ = other.totalReadings_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -2528,8 +2643,32 @@ namespace IotProject {
       }
     }
 
+    /// <summary>Field number for the "avg_usage" field.</summary>
+    public const int AvgUsageFieldNumber = 3;
+    private float avgUsage_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float AvgUsage {
+      get { return avgUsage_; }
+      set {
+        avgUsage_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_usage" field.</summary>
+    public const int MaxUsageFieldNumber = 4;
+    private float maxUsage_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float MaxUsage {
+      get { return maxUsage_; }
+      set {
+        maxUsage_ = value;
+      }
+    }
+
     /// <summary>Field number for the "total_readings" field.</summary>
-    public const int TotalReadingsFieldNumber = 3;
+    public const int TotalReadingsFieldNumber = 5;
     private long totalReadings_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2557,6 +2696,8 @@ namespace IotProject {
       }
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AvgTemperature, other.AvgTemperature)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MaxTemperature, other.MaxTemperature)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AvgUsage, other.AvgUsage)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MaxUsage, other.MaxUsage)) return false;
       if (TotalReadings != other.TotalReadings) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -2567,6 +2708,8 @@ namespace IotProject {
       int hash = 1;
       if (AvgTemperature != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AvgTemperature);
       if (MaxTemperature != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MaxTemperature);
+      if (AvgUsage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AvgUsage);
+      if (MaxUsage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MaxUsage);
       if (TotalReadings != 0L) hash ^= TotalReadings.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -2594,8 +2737,16 @@ namespace IotProject {
         output.WriteRawTag(21);
         output.WriteFloat(MaxTemperature);
       }
+      if (AvgUsage != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(AvgUsage);
+      }
+      if (MaxUsage != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(MaxUsage);
+      }
       if (TotalReadings != 0L) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(40);
         output.WriteInt64(TotalReadings);
       }
       if (_unknownFields != null) {
@@ -2616,8 +2767,16 @@ namespace IotProject {
         output.WriteRawTag(21);
         output.WriteFloat(MaxTemperature);
       }
+      if (AvgUsage != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(AvgUsage);
+      }
+      if (MaxUsage != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(MaxUsage);
+      }
       if (TotalReadings != 0L) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(40);
         output.WriteInt64(TotalReadings);
       }
       if (_unknownFields != null) {
@@ -2634,6 +2793,12 @@ namespace IotProject {
         size += 1 + 4;
       }
       if (MaxTemperature != 0F) {
+        size += 1 + 4;
+      }
+      if (AvgUsage != 0F) {
+        size += 1 + 4;
+      }
+      if (MaxUsage != 0F) {
         size += 1 + 4;
       }
       if (TotalReadings != 0L) {
@@ -2656,6 +2821,12 @@ namespace IotProject {
       }
       if (other.MaxTemperature != 0F) {
         MaxTemperature = other.MaxTemperature;
+      }
+      if (other.AvgUsage != 0F) {
+        AvgUsage = other.AvgUsage;
+      }
+      if (other.MaxUsage != 0F) {
+        MaxUsage = other.MaxUsage;
       }
       if (other.TotalReadings != 0L) {
         TotalReadings = other.TotalReadings;
@@ -2687,7 +2858,15 @@ namespace IotProject {
             MaxTemperature = input.ReadFloat();
             break;
           }
-          case 24: {
+          case 29: {
+            AvgUsage = input.ReadFloat();
+            break;
+          }
+          case 37: {
+            MaxUsage = input.ReadFloat();
+            break;
+          }
+          case 40: {
             TotalReadings = input.ReadInt64();
             break;
           }
@@ -2718,7 +2897,15 @@ namespace IotProject {
             MaxTemperature = input.ReadFloat();
             break;
           }
-          case 24: {
+          case 29: {
+            AvgUsage = input.ReadFloat();
+            break;
+          }
+          case 37: {
+            MaxUsage = input.ReadFloat();
+            break;
+          }
+          case 40: {
             TotalReadings = input.ReadInt64();
             break;
           }
