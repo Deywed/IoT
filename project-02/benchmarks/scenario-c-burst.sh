@@ -13,7 +13,18 @@ ROOT="$(cd "$HERE/.." && pwd)"
 RESULTS="$HERE/results"; mkdir -p "$RESULTS"
 NETWORK="${NETWORK:-project-02_default}"
 COMPOSE="docker compose -f $ROOT/docker-compose.yml"
+BENCH_IMG="${BENCH_IMG:-emqx/emqtt-bench:latest}"
 out="$RESULTS/scenario-c-$BROKER.txt"
+
+# Portabilni "timeout" (macOS nema `timeout`): bench detached, sačekaj, pokupi log, ugasi.
+run_bench() {  # $1=trajanje_s; ostalo=argumenti
+  local dur="$1"; shift
+  local name="bench_$$_$RANDOM"
+  docker run -d --name "$name" --network "$NETWORK" "$BENCH_IMG" "$@" >/dev/null 2>&1 || true
+  sleep "$dur"
+  docker logs "$name" 2>&1 || true
+  docker rm -f "$name" >/dev/null 2>&1 || true
+}
 
 echo ">>> Scenario C ($BROKER) — rezultat u $out"
 
@@ -37,12 +48,10 @@ if [ "$BROKER" = "kafka" ]; then
   done
 else
   echo "[baseline ~50 msg/s, 15s]" | tee "$out"
-  timeout 15 docker run --rm --network "$NETWORK" emqtt-bench \
-    pub -h mosquitto -t iot/measurements -c 5 -I 100 -q 1 -s 200 2>&1 | tee -a "$out" || true
+  run_bench 15 pub -h mosquitto -t iot/measurements -c 5 -I 100 -q 1 -s 200 | tee -a "$out"
 
   echo "[BURST ~5000 msg/s, 10s]" | tee -a "$out"
-  timeout 10 docker run --rm --network "$NETWORK" emqtt-bench \
-    pub -h mosquitto -t iot/measurements -c 100 -I 20 -q 1 -s 200 2>&1 | tee -a "$out" || true
+  run_bench 10 pub -h mosquitto -t iot/measurements -c 100 -I 20 -q 1 -s 200 | tee -a "$out"
 
   echo "[oporavak — prati inflight/queue u logovima i mosquitto \$SYS]" | tee -a "$out"
   echo "  docker compose logs -f storage-mqtt" | tee -a "$out"

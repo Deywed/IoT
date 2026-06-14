@@ -17,6 +17,17 @@ RESULTS="$HERE/results"; mkdir -p "$RESULTS"
 NETWORK="${NETWORK:-project-02_default}"
 DURATION="${DURATION:-30}"          # trajanje jednog merenja (s) — za MQTT
 COMPOSE="docker compose -f $ROOT/docker-compose.yml"
+BENCH_IMG="${BENCH_IMG:-emqx/emqtt-bench:latest}"   # zvanični prebuilt image
+
+# Portabilni "timeout" (macOS nema `timeout`): pokreni bench detached, sačekaj, pokupi log, ugasi.
+run_bench() {  # $1=trajanje_s; ostalo=argumenti za emqtt_bench
+  local dur="$1"; shift
+  local name="bench_$$_$RANDOM"
+  docker run -d --name "$name" --network "$NETWORK" "$BENCH_IMG" "$@" >/dev/null 2>&1 || true
+  sleep "$dur"
+  docker logs "$name" 2>&1 || true
+  docker rm -f "$name" >/dev/null 2>&1 || true
+}
 
 echo ">>> Scenario A ($BROKER) — rezultati u $RESULTS/"
 
@@ -27,9 +38,9 @@ if [ "$BROKER" = "mqtt" ]; then
     for q in "${QOS_LIST[@]}"; do
       out="$RESULTS/scenario-a-mqtt-c${c}-q${q}.txt"
       echo "--- emqtt-bench pub: clients=$c qos=$q dur=${DURATION}s ---" | tee "$out"
-      timeout "${DURATION}" docker run --rm --network "$NETWORK" emqtt-bench \
+      run_bench "${DURATION}" \
         pub -h mosquitto -p 1883 -t iot/measurements -c "$c" -I 10 -q "$q" -s 200 \
-        2>&1 | tee -a "$out" || true
+        | tee -a "$out"
     done
   done
 else

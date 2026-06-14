@@ -7,9 +7,9 @@ using IngestionService.Models;
 // Primarni generator opterećenja za merenja je emqtt-bench / kafka-perf;
 // ovaj servis pokriva funkcionalni pipeline, Scenario B (prekid mreže) i Scenario D (alerting).
 
-int deviceCount  = int.Parse(Environment.GetEnvironmentVariable("DEVICE_COUNT") ?? "100");
-int msgRate      = int.Parse(Environment.GetEnvironmentVariable("MSG_RATE") ?? "10");
-bool critical    = (Environment.GetEnvironmentVariable("CRITICAL_MODE") ?? "false")
+int deviceCount = int.Parse(Environment.GetEnvironmentVariable("DEVICE_COUNT") ?? "100");
+int msgRate = int.Parse(Environment.GetEnvironmentVariable("MSG_RATE") ?? "10");
+bool critical = (Environment.GetEnvironmentVariable("CRITICAL_MODE") ?? "false")
                      .Equals("true", StringComparison.OrdinalIgnoreCase);
 
 using var cts = new CancellationTokenSource();
@@ -28,6 +28,7 @@ var summaries = new[] { "Clear", "Cloudy", "Rainy", "Partly Cloudy" };
 int intervalMs = Math.Max(1, 1000 / Math.Max(1, msgRate));
 using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(intervalMs));
 long sent = 0;
+long failed = 0;
 var sw = Stopwatch.StartNew();
 
 try
@@ -38,20 +39,29 @@ try
         {
             var m = new Measurement
             {
-                DeviceId        = $"dev-{d:D4}",
-                ProducedAt      = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+                DeviceId = $"dev-{d:D4}",
+                ProducedAt = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
                 // U critical modu šaljemo namerno visoke temperature (>50°C) -> alarm u Analytics.
-                Temperature     = critical ? Round(55 + rng.NextDouble() * 15) : Round(5 + rng.NextDouble() * 30),
-                Humidity        = Round(30 + rng.NextDouble() * 50),
-                OverallUsage    = Round(1 + rng.NextDouble() * 14),
+                Temperature = critical ? Round(55 + rng.NextDouble() * 15) : Round(5 + rng.NextDouble() * 30),
+                Humidity = Round(30 + rng.NextDouble() * 50),
+                OverallUsage = Round(1 + rng.NextDouble() * 14),
                 SolarGeneration = Round(rng.NextDouble() * 8),
-                FridgeKw        = Round(0.1 + rng.NextDouble() * 0.4, 3),
-                FurnaceKw       = Round(rng.NextDouble() * 3),
-                HomeOfficeKw    = Round(rng.NextDouble() * 0.5, 3),
-                Summary         = summaries[rng.Next(summaries.Length)],
+                FridgeKw = Round(0.1 + rng.NextDouble() * 0.4, 3),
+                FurnaceKw = Round(rng.NextDouble() * 3),
+                HomeOfficeKw = Round(rng.NextDouble() * 0.5, 3),
+                Summary = summaries[rng.Next(summaries.Length)],
             };
-            await publisher.PublishAsync(m.DeviceId, m.ToJson(), cts.Token);
-            sent++;
+            try
+            {
+                await publisher.PublishAsync(m.DeviceId, m.ToJson(), cts.Token);
+                sent++;
+            }
+            catch (OperationCanceledException) { throw; }
+            catch (Exception ex)   // prekid mreže / broker nedostupan — ne ruši simulator (Scenario B)
+            {
+                if (failed++ % 5000 == 0)
+                    Console.WriteLine($"[Ingestion] greška pri slanju (nastavljam): {ex.Message}");
+            }
         }
 
         if (sw.Elapsed.TotalSeconds >= 5)

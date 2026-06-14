@@ -6,8 +6,9 @@ dolazi uz Kafka image). Praćenje resursa: `docker stats` -> CSV. Rezultati -> `
 ## Priprema
 
 ```bash
-# 1) Build emqtt-bench image (samo jednom; gradi iz izvora, par minuta)
-docker build -t emqtt-bench mqtt/
+# 1) Obezbedi emqtt-bench (zvanični prebuilt image — bez gradnje iz izvora)
+docker pull emqx/emqtt-bench:latest
+#    (skripte podrazumevano koriste baš ovaj image; override: BENCH_IMG=...)
 
 # 2) Pokreni odgovarajući stek (iz project-02/). Za Scenarije A i C preporučuje se
 #    isključivanje upisa u bazu da disk I/O ne bude usko grlo:
@@ -46,7 +47,8 @@ docker compose logs storage-kafka | grep "primljeno"
 
 ## Napomena o emqtt-bench
 
-Ako build iz izvora nije moguć u okruženju, emqtt-bench se može instalirati lokalno na host
-([github.com/emqx/emqtt-bench](https://github.com/emqx/emqtt-bench)) i pokrenuti protiv
-`localhost:1883` (port je izložen). U tom slučaju u skriptama zameniti `docker run … emqtt-bench`
-pozivom host binarom (`emqtt_bench pub -h localhost …`).
+Skripte koriste zvanični prebuilt image `emqx/emqtt-bench:latest` (nema gradnje iz izvora —
+ona povlači quicer/msquic i traži cmake/C++ toolchain). Na macOS-u skripte ne koriste `timeout`
+(kojeg nema), već pokreću bench detached pa ga ugase posle zadatog trajanja.
+
+Alternativa: instalirati emqtt-bench na host i pokrenuti protiv `localhost:1883` (port je izložen).
