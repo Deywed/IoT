@@ -1,0 +1,16 @@
+{
+  "id": "rule_rain_likely",
+  "name": "CEP: verovatna kiša (visoka vlažnost + niska solarna, prozor 10s)",
+  "sql": "SELECT device_id, AVG(humidity) AS avg_humidity, AVG(solar_generation) AS avg_solar, \"RAIN_LIKELY\" AS event_type FROM iot_measurements GROUP BY device_id, TUMBLINGWINDOW(ss, 10) HAVING AVG(humidity) > 78 AND AVG(solar_generation) < 1.5",
+  "actions": [
+    {
+      "mqtt": {
+        "server": "tcp://mosquitto:1883",
+        "topic": "iot/events",
+        "qos": 1,
+        "sendSingle": true
+      }
+    },
+    { "log": {} }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "sql": "CREATE STREAM iot_measurements (device_id string, produced_at bigint, temperature float, humidity float, overall_usage float, solar_generation float, fridge_kw float, furnace_kw float, home_office_kw float, summary string) WITH (DATASOURCE=\"iot/measurements\", FORMAT=\"json\", TYPE=\"mqtt\", SHARED=\"true\")"
+}

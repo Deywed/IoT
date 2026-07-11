@@ -1,0 +1,16 @@
+{
+  "id": "rule_window_energy",
+  "name": "CEP: prosečna potrošnja po prozoru (tumbling 10s)",
+  "sql": "SELECT device_id, AVG(overall_usage) AS avg_usage, MAX(overall_usage) AS max_usage, COUNT(*) AS cnt, \"WINDOW_HIGH_ENERGY\" AS event_type FROM iot_measurements GROUP BY device_id, TUMBLINGWINDOW(ss, 10) HAVING AVG(overall_usage) > 10",
+  "actions": [
+    {
+      "mqtt": {
+        "server": "tcp://mosquitto:1883",
+        "topic": "iot/events",
+        "qos": 1,
+        "sendSingle": true
+      }
+    },
+    { "log": {} }
+  ]
+}

@@ -1,0 +1,18 @@
+# .NET
+**/bin/
+**/obj/
+
+# Node
+**/node_modules/
+**/dist/
+
+# Python (MaaS)
+**/__pycache__/
+*.pyc
+.venv/
+# Artefakti treniranja (generišu se u Docker build koraku)
+maas-service/model.joblib
+maas-service/metrics.json
+
+# Lokalna konfiguracija
+.env

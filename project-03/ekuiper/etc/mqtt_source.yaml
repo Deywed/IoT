@@ -1,0 +1,8 @@
+# eKuiper MQTT source — Projekat 3
+# Podrazumevani MQTT server za sve MQTT stream-ove (iot_measurements).
+# Isti broker (Mosquitto) na koji publikuje ingestion i sa kog čita Analytics.
+# NAPOMENA: isto se može podesiti i preko env promenljive MQTT_SOURCE__DEFAULT__SERVER.
+default:
+  qos: 1
+  server: "tcp://mosquitto:1883"
+  # Mosquitto dozvoljava anonimni pristup (allow_anonymous true), pa nema username/password.

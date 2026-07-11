@@ -1,0 +1,16 @@
+{
+  "id": "rule_high_temp",
+  "name": "Detekcija visoke temperature (instant)",
+  "sql": "SELECT device_id, temperature, produced_at, \"HIGH_TEMP\" AS event_type FROM iot_measurements WHERE temperature > 45",
+  "actions": [
+    {
+      "mqtt": {
+        "server": "tcp://mosquitto:1883",
+        "topic": "iot/events",
+        "qos": 1,
+        "sendSingle": true
+      }
+    },
+    { "log": {} }
+  ]
+}

@@ -1,0 +1,168 @@
+# Projekat 3 — Analytics + eKuiper (CEP) + MaaS (ML) nad MQTT-om
+#
+#   docker compose up --build
+#
+# Ceo pipeline ide preko MQTT-a (Mosquitto). eKuiper je pretplaćen na isti topic
+# kao Analytics (iot/measurements), detektuje događaje i šalje ih na novi topic
+# (iot/events) koji Analytics preuzima. Analytics dodatno poziva MaaS (REST) za
+# ML klasifikaciju vremena i izlaže rezultate web dashboard-u (HTTP/SSE).
+
+services:
+  # ── Deljena baza ────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── MQTT broker ─────────────────────────────────────────────────────────────
+  mosquitto:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./broker-config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto_data:/mosquitto/data
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -h localhost -t '$$SYS/#' -C 1 -W 3 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Simulator senzora (producer) ────────────────────────────────────────────
+  ingestion:
+    build: ./services/ingestion-service
+    image: proj03-ingestion
+    environment:
+      BROKER: mqtt
+      MQTT_HOST: mosquitto
+      MQTT_PORT: "1883"
+      MQTT_QOS: ${MQTT_QOS:-1}
+      TOPIC: iot/measurements
+      DEVICE_COUNT: ${DEVICE_COUNT:-5}
+      MSG_RATE: ${MSG_RATE:-1}
+      CRITICAL_MODE: ${CRITICAL_MODE:-false}
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+
+  # ── Data Storage Service (consumer -> Postgres) ─────────────────────────────
+  storage:
+    build: ./services/storage-service
+    image: proj03-storage
+    environment:
+      BROKER: mqtt
+      MQTT_HOST: mosquitto
+      MQTT_PORT: "1883"
+      MQTT_QOS: ${MQTT_QOS:-1}
+      TOPIC: iot/measurements
+      DB_CONN: "Host=db;Database=mydb;Username=myuser;Password=mypassword"
+      STORAGE_WRITE_ENABLED: ${STORAGE_WRITE_ENABLED:-true}
+      STORAGE_BATCH_SIZE: ${STORAGE_BATCH_SIZE:-500}
+      STORAGE_FLUSH_MS: ${STORAGE_FLUSH_MS:-2000}
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+
+  # ── eKuiper (streaming / CEP) ───────────────────────────────────────────────
+  ekuiper:
+    image: lfedge/ekuiper:latest
+    ports:
+      - "9081:9081"
+    environment:
+      # Podrazumevani MQTT server za sve MQTT stream-ove (redundantno sa mqtt_source.yaml).
+      MQTT_SOURCE__DEFAULT__SERVER: "tcp://mosquitto:1883"
+      KUIPER__BASIC__CONSOLELOG: "true"
+    volumes:
+      - ./ekuiper/etc/mqtt_source.yaml:/kuiper/etc/mqtt_source.yaml
+      - ekuiper_data:/kuiper/data
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+
+  # ── eKuiper init: registruje stream + CEP pravila preko REST-a, pa izlazi ───
+  ekuiper-init:
+    image: curlimages/curl:latest
+    volumes:
+      - ./ekuiper/streams:/init/streams:ro
+      - ./ekuiper/rules:/init/rules:ro
+      - ./ekuiper/init.sh:/init/init.sh:ro
+    entrypoint: ["sh", "/init/init.sh"]
+    restart: "no"
+    depends_on:
+      ekuiper:
+        condition: service_started
+
+  # ── MaaS (Model as a Service, Python/FastAPI/scikit-learn) ──────────────────
+  maas:
+    build: ./maas-service
+    image: proj03-maas
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  # ── Analytics (tumbling window + eKuiper CEP + MaaS + HTTP/SSE) ─────────────
+  analytics:
+    build: ./services/analytics-service
+    image: proj03-analytics
+    ports:
+      - "8080:8080"
+    environment:
+      MQTT_HOST: mosquitto
+      MQTT_PORT: "1883"
+      MQTT_QOS: ${MQTT_QOS:-1}
+      TOPIC: iot/measurements
+      EVENTS_TOPIC: ${EVENTS_TOPIC:-iot/events}
+      ALERTS_TOPIC: ${ALERTS_TOPIC:-iot/alerts}
+      ALERT_THRESHOLD: ${ALERT_THRESHOLD:-50}
+      WINDOW_SECONDS: ${WINDOW_SECONDS:-10}
+      MAAS_URL: http://maas:8000
+      API_PORT: "8080"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:8080/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      maas:
+        condition: service_healthy
+
+  # ── Web dashboard (React + Vite, nginx reverse-proxy /api -> analytics) ─────
+  web:
+    build: ./web-dashboard
+    image: proj03-web
+    ports:
+      - "8081:80"
+    depends_on:
+      analytics:
+        condition: service_healthy
+
+volumes:
+  db_data:
+  mosquitto_data:
+  ekuiper_data:

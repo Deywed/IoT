@@ -32,6 +32,32 @@ Model podataka je isti kao u Projektu 1 (`sensor_measurements`), prošireno sa `
 > publish-rate klijenata pod datim QoS-om; kafka-perf meri producer-rate pri `throughput=-1`
 > (maksimalno guranje, pa se producer red zasiti — otud visoke producer-latencije).
 
+### Metodološka napomena — validnost poređenja MQTT vs Kafka
+
+MQTT i Kafka su **različite kategorije tehnologije**, pa ovo nije „fer trka" za titulu najbržeg:
+
+- **MQTT** je lagan *protokol* za razmenu poruka (OASIS standard), sa prolaznim brokerom koji
+  rutira poruke pretplatnicima (push). **Kafka** je distribuirana *platforma* — trajni,
+  particionisani commit-log iz kojeg potrošači čitaju po offset-u (pull), sa replay-em i retencijom.
+- Poređenje sirovog throughput-a je delom „kruške vs jabuke": Kafka na **jednom** KRaft čvoru ne
+  koristi svoju glavnu prednost (particionisanje/replikacija preko više brokera), alati mere
+  različite veličine, a Mosquitto ima manji otisak jer i radi manje (ne skladišti tok).
+
+Poređenje je ipak smisleno **kao trade-off studija** (što postavka i traži): cilj nije „ko pobeđuje",
+nego **gde svaki pripada**. Izmerene vrednosti pokazuju tendencije — MQTT: mali otisak + niska
+latencija + prolaznost; Kafka: trajnost + replay + skalabilnost po ceni resursa.
+
+U realnim sistemima se najčešće koriste **komplementarno, a ne „ili-ili"**:
+
+```
+[senzori] --MQTT--> [MQTT broker/gateway] --most--> [Kafka] --> [analitika / data lake / ML]
+              edge                                    cloud
+```
+
+MQTT na uređajima (radi i preko slabe veze), zatim MQTT→Kafka most, pa Kafka za istorijsku
+analitiku. Ograničenja merenja (jedan Kafka čvor, različiti alati, lokalni Docker) svesno su
+prihvaćena jer cilj nije apsolutni broj nego razumevanje pogodnosti za edge naspram cloud sloja.
+
 ## 3. Uporedna tabela performansi
 
 ### Scenario A — Massive Sensor Ingestion (max throughput)
